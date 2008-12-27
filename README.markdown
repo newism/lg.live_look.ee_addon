@@ -1,4 +1,4 @@
-LG Live Look - A jQuery plugin to create a table of contents from HTML markup.
+LG Live Look - Preview ExpressionEngine entries in the publish/edit tab.
 ===========================================================================
 
 **Author**: [Leevi Graham][] - Technical Director, [Newism Pty Ltd][]  
