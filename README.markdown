@@ -2,7 +2,7 @@ LG Live Look - A jQuery plugin to create a table of contents from HTML markup.
 ===========================================================================
 
 **Author**: [Leevi Graham][] - Technical Director, [Newism Pty Ltd][]  
-**Git Master Repository**: <http://github.com/newism/lg_live_look.ee_addon/>
+**Github Repository**: <http://github.com/newism/lg_live_look.ee_addon/>
 
 About
 -----
