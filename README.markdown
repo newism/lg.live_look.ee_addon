@@ -2,7 +2,7 @@ LG Live Look - Preview ExpressionEngine entries in the publish/edit tab.
 ===========================================================================
 
 **Author**: [Leevi Graham][] - Technical Director, [Newism Pty Ltd][]  
-**Github Repository**: <http://github.com/newism/lg_live_look.ee_addon/>
+**Github Repository**: <http://github.com/newism/lg.live_look.ee_addon/>
 
 About
 -----
