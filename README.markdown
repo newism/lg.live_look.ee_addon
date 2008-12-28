@@ -20,7 +20,7 @@ Change Log
 
 ### Version 1.0.2
 
-* Added Quicksave and Preview integration
+* Added Quicksave integration
 
 ### Version 1.0.1
 
