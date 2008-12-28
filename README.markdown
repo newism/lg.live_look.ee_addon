@@ -20,7 +20,7 @@ Change Log
 
 ### Version 1.0.2
 
-* Added Quicksave integration including support for new entries <small>( [bug](http://expressionengine.com/forums/viewreply/473238/) )</small>
+* Added Quicksave integration including support for new entries <small>( bug - <http://expressionengine.com/forums/viewreply/473238/> )</small>
 
 ### Version 1.0.1
 
