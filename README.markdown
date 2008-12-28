@@ -24,7 +24,7 @@ Change Log
 
 ### Version 1.0.1
 
-* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings \( <http://expressionengine.com/forums/viewreply/473025/> \)
+* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings \( [bug](http://expressionengine.com/forums/viewreply/473025/) \)
 * Fixed LANG file \( <http://expressionengine.com/forums/viewreply/477007/> \)
 * Separated Javascript from extension file
 
