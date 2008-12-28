@@ -6,7 +6,7 @@
 * /system/language/english/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.0.1
+* @version 1.0.2
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
