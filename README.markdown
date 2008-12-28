@@ -13,7 +13,7 @@ A Live Look tab is added to the publish / edit form which displays the populated
 Full Documentation
 ------------------
 
-Documentation for version 1.0.0 is available at <http://leevigraham.com/cms-customisation/expressionengine/lg-live-look/>
+Documentation for version 1.0 is available at <http://leevigraham.com/cms-customisation/expressionengine/lg-live-look/>
 
 Change Log
 -------
