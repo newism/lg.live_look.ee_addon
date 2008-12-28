@@ -20,12 +20,12 @@ Change Log
 
 ### Version 1.0.2
 
-* Added Quicksave integration including support for new entries \( <http://expressionengine.com/forums/viewreply/473238/> \)
+* Added Quicksave integration including support for new entries \([bug](http://expressionengine.com/forums/viewreply/473238/)\)
 
 ### Version 1.0.1
 
-* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings \( [bug](http://expressionengine.com/forums/viewreply/473025/) \)
-* Fixed LANG file \( <http://expressionengine.com/forums/viewreply/477007/> \)
+* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings \([fr](http://expressionengine.com/forums/viewreply/473025/)\)
+* Fixed LANG file \([bug](http://expressionengine.com/forums/viewreply/477007/)\)
 * Separated Javascript from extension file
 
 ### Version 1.0.0
