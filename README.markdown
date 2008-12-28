@@ -24,7 +24,7 @@ Change Log
 
 ### Version 1.0.1
 
-* Added Pages Module integration - Entries will use their {page_url} (where applicable) rather than the generated URL based on the extension settings <small>( [feature request][fr_1] )</small>
+* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings <small>( [feature request][fr_1] )</small>
 * Fixed LANG file <small>( [bug][bug_1] )</small>
 * Separated Javascript from extension file
 
