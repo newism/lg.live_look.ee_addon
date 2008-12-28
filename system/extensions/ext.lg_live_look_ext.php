@@ -265,7 +265,6 @@ class Lg_live_look_ext {
 			( isset($this->settings['weblogs'][$weblog_id]) && $this->settings['weblogs'][$weblog_id]['display_tab'] == "y" )
 		)
 		{
-			print_r($SESS->cache['lg']);
 			$entry_id = $SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'];
 			$ret .= "<!-- Start LG Live Look Tab -->";
 			$ret .= "<div id='blockllp' style='display:none'>";
