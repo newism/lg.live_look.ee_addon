@@ -27,6 +27,7 @@ Change Log
 * Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings \([fr](http://expressionengine.com/forums/viewreply/473025/)\)
 * Fixed LANG file \([bug](http://expressionengine.com/forums/viewreply/477007/)\)
 * Separated Javascript from extension file
+* Added [CP jQuery][] dependency (bundled with EE 1.6.6+) - Removed "Scripts" extension setting.
 
 ### Version 1.0.0
 
@@ -55,3 +56,4 @@ This file is written using the MarkDown syntax. It may or may not have been pars
 [Creative Commons Attribution-Share Alike 3.0 Unported]: http://creativecommons.org/licenses/by-sa/3.0/ 
 [Leevi Graham]: http://leevigraham.com/
 [ExpressionEngine extension]: http://expressionengine.com/?affiliate=newism
+[CP jQuery]: http://www.ngenworks.com/software/ee/cp_jquery/
