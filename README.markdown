@@ -20,12 +20,12 @@ Change Log
 
 ### Version 1.0.2
 
-* Added Quicksave integration including support for new entries <small>( [bug][bug_2] )</small>
+* Added Quicksave integration including support for new entries <small>\( [bug][bug_2] \)</small>
 
 ### Version 1.0.1
 
-* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings <small>( [feature request][fr_1] )</small>
-* Fixed LANG file <small>( [bug][bug_1] )</small>
+* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings <small>\( [feature request][fr_1] \)</small>
+* Fixed LANG file <small>\( [bug][bug_1] \)</small>
 * Separated Javascript from extension file
 
 ### Version 1.0.0
