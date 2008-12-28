@@ -20,12 +20,12 @@ Change Log
 
 ### Version 1.0.2
 
-* Added Quicksave integration including support for new entries \( bug - <http://expressionengine.com/forums/viewreply/473238/> \)
+* Added Quicksave integration including support for new entries \( <http://expressionengine.com/forums/viewreply/473238/> \)
 
 ### Version 1.0.1
 
-* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings <small>( [feature request][fr_1] )</small>
-* Fixed LANG file <small>( [bug][bug_1] )</small>
+* Added Pages Module integration - Entries will use their {page\_url} (where applicable) rather than the generated URL based on the extension settings \( <http://expressionengine.com/forums/viewreply/473025/> \)
+* Fixed LANG file \( <http://expressionengine.com/forums/viewreply/477007/> \)
 * Separated Javascript from extension file
 
 ### Version 1.0.0
@@ -51,9 +51,6 @@ Under the following conditions:
 
 This file is written using the MarkDown syntax. It may or may not have been parsed. If you are having trouble reading it try running the contents through http://daringfireball.net/projects/markdown/dingus.
 
-[bug_1]: http://expressionengine.com/forums/viewreply/477007/
-[bug_2]: http://expressionengine.com/forums/viewreply/473238/
-[fr_1]: http://expressionengine.com/forums/viewreply/473025/
 [Newism Pty Ltd]: http://newism.com.au/
 [Creative Commons Attribution-Share Alike 3.0 Unported]: http://creativecommons.org/licenses/by-sa/3.0/ 
 [Leevi Graham]: http://leevigraham.com/
