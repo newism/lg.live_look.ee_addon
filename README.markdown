@@ -15,6 +15,21 @@ Full Documentation
 
 Documentation for version 1.0.0 is available at <http://leevigraham.com/cms-customisation/expressionengine/lg-live-look/>
 
+Change Log
+-------
+
+### Version 1.0.2
+
+* Added Quicksave and Preview integration
+
+### Version 1.0.1
+
+* Added Pages Module integration
+
+### Version 1.0.0
+
+* Initial Release
+
 License
 -------
 

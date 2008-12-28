@@ -6,7 +6,7 @@
 * /system/extensions/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.0.1
+* @version 1.0.2
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -17,7 +17,7 @@ if ( ! defined('EXT')) exit('Invalid file request');
 
 if ( ! defined('LG_LL_version'))
 {
-	define("LG_LL_version",			"1.0.1");
+	define("LG_LL_version",			"1.0.2");
 	define("LG_LL_docs_url",		"http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/");
 	define("LG_LL_addon_id",		"LG Live Look");
 	define("LG_LL_extension_class",	"Lg_live_look_ext");
@@ -95,6 +95,44 @@ class Lg_live_look_ext {
 		if(isset($SESS->cache['lg']) === FALSE){ $SESS->cache['lg'] = array();}
 		$this->settings = $this->_get_settings();
 		$this->debug = $IN->GBL('debug');
+	}
+
+	/**
+	* Method for the publish_form_start hook
+	* 
+	* - Runs before any data id processed
+	* - Sets local $SESS->cache[] array element to store the action
+	* - Sets local $SESS->cache[] array element to store the entry_id
+	*
+	* @param	string $which The current action (new, preview, edit, or save)
+	* @param	string $submission_error A submission error if any
+	* @param	string $entry_id The current entries id
+	* @see		http://expressionengine.com/developers/extension_hooks/publish_form_start/
+	* @since	Version 1.0.0
+	*/
+	function publish_form_start( $which, $submission_error, $entry_id, $hidden )
+	{
+		if($this->debug === TRUE) print("<br />publish_form_start");
+
+		global $DB, $EE, $EXT, $IN, $LANG, $LOC, $REGX, $SESS;
+
+		$weblog_id = $IN->GBL("weblog_id");
+
+		if(
+			// enabled?
+			$this->settings['enable'] == 'y' &&
+			// allowed member group?
+			in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups']) &&
+			// show tab for this weblog
+			( isset($this->settings['weblogs'][$weblog_id]) && $this->settings['weblogs'][$weblog_id]['display_tab'] == "y" )
+		)
+		{
+			if(empty($entry_id) === TRUE) $entry_id = $IN->GBL("entry_id");
+
+			// action will always be passed
+			$SESS->cache['lg'][LG_LL_addon_id]['publish_form_action'] = $which;
+			$SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'] = $entry_id;
+		}
 	}
 
 	/**
@@ -227,13 +265,15 @@ class Lg_live_look_ext {
 			( isset($this->settings['weblogs'][$weblog_id]) && $this->settings['weblogs'][$weblog_id]['display_tab'] == "y" )
 		)
 		{
+			print_r($SESS->cache['lg']);
+			$entry_id = $SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'];
 			$ret .= "<!-- Start LG Live Look Tab -->";
 			$ret .= "<div id='blockllp' style='display:none'>";
 			$ret .= $DSP->div('publishTabWrapper');
 			$ret .= $DSP->div('publishBox');
 
 			// if there is an entry (edit page)
-			if( ($entry_id = $IN->GBL('entry_id')) !== FALSE)
+			if($entry_id !== FALSE)
 			{
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
 				$ret .= "<div style='border:1px solid #C5CFDA; margin:0 0 9px 0;'><iframe id='llp_frame' src='' style='background:#fff; border:none; padding:0; margin:0; width:100%;'></iframe></div>";
@@ -846,9 +886,30 @@ stylereset('llp');
 	function update_extension( $current = "" )
 	{
 		global $DB;
+
 		if ($current == '' OR $current == $this->version)
 		{
 			return FALSE;
+		}
+
+		// add our new robots options
+		if ($current < '1.0.2')
+		{
+
+			// load the settings from cache or DB
+			$this->settings = $this->_get_settings(TRUE, TRUE);
+
+			$DB->query($DB->insert_string( 'exp_extensions', 
+											array('extension_id' 	=> '',
+												'class'			=> get_class($this),
+												'method'		=> 'publish_form_start',
+												'hook'			=> 'publish_form_start',
+												'priority'		=> 10,
+												'version'		=> $this->version,
+												'enabled'		=> "y",
+												'settings'		=> addslashes(serialize($this->settings))
+											)
+										));
 		}
 
 		$sql[] = "UPDATE `exp_extensions` SET `version` = '" . $DB->escape_str($this->version) . "' WHERE `class` = '" . get_class($this) . "'";

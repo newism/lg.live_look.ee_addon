@@ -2,7 +2,7 @@ h = $.cookie("lg_live_look_h");
 $iframe = $("#llp_frame").attr({"height": h+"px"});
 $iframe.scrollTop(s);
 $(".publishTabWidth a").click(function(){
-	if($(this).text() == "Live Look" && $iframe.attr("src") == ""){
+	if($(this).text() == "Live Look" || $(this).text() == "Show All"){
 		$iframe.attr({"src": lg_live_look_url});
 	}
 });
