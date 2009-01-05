@@ -6,7 +6,7 @@
 * /system/extensions/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.0.2
+* @version 1.0.3
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -17,7 +17,7 @@ if ( ! defined('EXT')) exit('Invalid file request');
 
 if ( ! defined('LG_LL_version'))
 {
-	define("LG_LL_version",			"1.0.2");
+	define("LG_LL_version",			"1.0.3");
 	define("LG_LL_docs_url",		"http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/");
 	define("LG_LL_addon_id",		"LG Live Look");
 	define("LG_LL_extension_class",	"Lg_live_look_ext");
@@ -72,6 +72,13 @@ class Lg_live_look_ext {
 	* @var string
 	*/
 	var $docs_url			= LG_LL_docs_url;
+	
+	/**
+	* Debug?
+	* @var boolean
+	*/
+	var $debug 				= FALSE;
+	
 
 	/**
 	* PHP4 Constructor
@@ -92,9 +99,8 @@ class Lg_live_look_ext {
 	function __construct( $settings="" )
 	{
 		global $IN, $SESS;
-		if(isset($SESS->cache['lg']) === FALSE){ $SESS->cache['lg'] = array();}
+		if(isset($SESS->cache['lg']) === FALSE){ $SESS->cache['lg'] = array(); }
 		$this->settings = $this->_get_settings();
-		$this->debug = $IN->GBL('debug');
 	}
 
 	/**
@@ -144,6 +150,9 @@ class Lg_live_look_ext {
 	**/
 	function edit_entries_additional_tableheader()
 	{
+
+		if($this->debug === TRUE) print("<br />edit_entries_additional_tableheader");
+
 		global $DSP, $LANG, $EXT, $SESS;
 		$extra = ($EXT->last_call !== FALSE) ? $EXT->last_call : '';
 		if(
@@ -167,6 +176,8 @@ class Lg_live_look_ext {
 	**/
 	function edit_entries_additional_celldata( $row )
 	{
+		if($this->debug === TRUE) print("<br />edit_entries_additional_celldata");
+
 		global $DB, $DSP, $EXT, $PREFS, $LANG, $SESS, $row_i;
 
 		if (empty($row_i)){ $row_i = 0; }
@@ -216,6 +227,8 @@ class Lg_live_look_ext {
 	*/
 	function publish_form_new_tabs( $publish_tabs, $weblog_id, $entry_id, $hidden )
 	{
+		if($this->debug === TRUE) print("<br />publish_form_new_tabs");
+
 		global $EXT, $PREFS, $SESS;
 
 		if($EXT->last_call !== FALSE)
@@ -250,6 +263,8 @@ class Lg_live_look_ext {
 	*/
 	function publish_form_new_tabs_block( $weblog_id )
 	{
+		if($this->debug === TRUE) print("<br />publish_form_new_tabs_block");
+
 		global $DB, $EXT, $PREFS, $SESS, $LANG, $REGX, $IN, $DSP;
 
 		$LANG->fetch_language_file('lg_live_look_ext');
@@ -274,6 +289,7 @@ class Lg_live_look_ext {
 			// if there is an entry (edit page)
 			if($entry_id !== FALSE)
 			{
+				$ret .= "<p style='float:left; margin-bottom:9px'><b>".$LANG->line("preview_of_published")."</b></p>";
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
 				$ret .= "<div style='border:1px solid #C5CFDA; margin:0 0 9px 0;'><iframe id='llp_frame' src='' style='background:#fff; border:none; padding:0; margin:0; width:100%;'></iframe></div>";
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
@@ -309,6 +325,8 @@ class Lg_live_look_ext {
 	*/
 	function show_full_control_panel_end( $out )
 	{
+		if($this->debug === TRUE) print("<br />show_full_control_panel_end");
+
 		global $DB, $EXT, $IN, $PREFS, $REGX, $SESS;
 
 		// -- Check if we're not the only one using this hook
@@ -351,9 +369,9 @@ stylereset('llp');
 	**/
 	function _parse_url( $entry_id, $row = FALSE )
 	{
-		global $DB, $FNS, $PREFS, $SESS;
+		if($this->debug === TRUE) print("<br />_parse_url");
 
-		//print_r($SESS);
+		global $DB, $FNS, $PREFS, $SESS;
 
 		$ret = '';
 
@@ -393,6 +411,8 @@ stylereset('llp');
 	*/
 	function _get_settings( $force_refresh = FALSE, $return_all = FALSE )
 	{
+		if($this->debug === TRUE) print("<br />_get_settings");
+
 		global $SESS, $DB, $REGX, $LANG, $PREFS;
 
 		// assume there are no settings
@@ -761,6 +781,8 @@ stylereset('llp');
 	*/
 	function _build_default_settings()
 	{
+		if($this->debug === TRUE) print("<br />_build_default_settings");
+
 		global $DB, $PREFS;
 
 		$default_settings = array(
@@ -842,6 +864,7 @@ stylereset('llp');
 		}
 
 		$hooks = array(
+			'publish_form_start'					=> 'publish_form_start',
 			'publish_form_new_tabs'					=> 'publish_form_new_tabs',
 			'publish_form_new_tabs_block'			=> 'publish_form_new_tabs_block',
 			'edit_entries_additional_tableheader'	=> 'edit_entries_additional_tableheader',

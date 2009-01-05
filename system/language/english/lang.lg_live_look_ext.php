@@ -6,7 +6,7 @@
 * /system/language/english/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.0.2
+* @version 1.0.3
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -65,6 +65,7 @@ $L = array(
 "save_entry_msg" => "Save this entry to enable Live Look.",
 "enlarge_iframe" => "Enlarge Preview",
 "shrink_iframe" => "Shrink Preview",
+"preview_of_published" => "Preview of currently published entry:",
 // END
 ''=>''
 );

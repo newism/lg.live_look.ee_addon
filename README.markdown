@@ -18,9 +18,13 @@ Documentation for version 1.0 is available at <http://leevigraham.com/cms-custom
 Change Log
 -------
 
+### Version 1.0.3
+
+* Added publish\_form\_start hook for new installs.
+
 ### Version 1.0.2
 
-* Added Quicksave integration including support for new entries \([bug](http://expressionengine.com/forums/viewreply/473238/)\).
+* Added Quicksave integration including support for new entries \([bug](http://expressionengine.com/forums/viewreply/473238/)\)
 
 ### Version 1.0.1
 
