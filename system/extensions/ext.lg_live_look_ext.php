@@ -124,21 +124,12 @@ class Lg_live_look_ext {
 
 		$weblog_id = $IN->GBL("weblog_id");
 
-		if(
-			// enabled?
-			$this->settings['enable'] == 'y' &&
-			// allowed member group?
-			in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups']) &&
-			// show tab for this weblog
-			( isset($this->settings['weblogs'][$weblog_id]) && $this->settings['weblogs'][$weblog_id]['display_tab'] == "y" )
-		)
-		{
-			if(empty($entry_id) === TRUE) $entry_id = $IN->GBL("entry_id");
+		if(empty($entry_id) === TRUE) $entry_id = $IN->GBL("entry_id");
 
-			// action will always be passed
-			$SESS->cache['lg'][LG_LL_addon_id]['publish_form_action'] = $which;
-			$SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'] = $entry_id;
-		}
+		// action will always be passed
+		$SESS->cache['lg'][LG_LL_addon_id]['publish_form_action'] = $which;
+		$SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'] = $entry_id;
+
 	}
 
 	/**
@@ -287,7 +278,7 @@ class Lg_live_look_ext {
 			$ret .= $DSP->div('publishBox');
 
 			// if there is an entry (edit page)
-			if($entry_id !== FALSE)
+			if($entry_id != FALSE)
 			{
 				$ret .= "<p style='float:left; margin-bottom:9px'><b>".$LANG->line("preview_of_published")."</b></p>";
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
@@ -347,13 +338,9 @@ class Lg_live_look_ext {
 			}
 		}
 
-		if($IN->GBL('save') || $IN->GBL('nsm_pp_save_as_draft'))
+		if(($IN->GBL('save') || $IN->GBL('nsm_pp_save_as_draft')))
 		{
-			$js .= "\n<script type='text/javascript' charset='utf-8'>
-\$iframe.attr({'src': lg_live_look_url});
-showblock('blockllp');
-stylereset('llp');
-</script>";
+			$js .= "\n<script type='text/javascript' charset='utf-8'>\$iframe.attr({'src': lg_live_look_url});showblock('blockllp');stylereset('llp');</script>";
 		}
 		
 		$out = str_replace("</body>", $js . "</body>", $out);

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>README.markdown</string>
+	<string>system/extensions/ext.lg_live_look_ext.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -18,7 +18,7 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>412</integer>
+	<integer>297</integer>
 	<key>metaData</key>
 	<dict>
 		<key>README.markdown</key>
@@ -26,23 +26,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>60</integer>
+				<integer>51</integer>
 				<key>line</key>
-				<integer>58</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>22</integer>
-		</dict>
-		<key>lg_live_look.create-sym-links.command</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>103</integer>
-				<key>line</key>
-				<integer>13</integer>
+				<integer>22</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -56,28 +42,12 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>213</integer>
+				<integer>560</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>2</integer>
-				<key>line</key>
-				<integer>213</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>213</integer>
-			</dict>
+			<integer>554</integer>
 		</dict>
 		<key>system/language/english/lang.lg_live_look_ext.php</key>
 		<dict>
@@ -140,16 +110,15 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>lg_live_look.create-sym-links.command</string>
-		<string>README.markdown</string>
-		<string>themes/cp_themes/default/lg_live_look/js/jquery.cookie.min.js</string>
 		<string>system/extensions/ext.lg_live_look_ext.php</string>
+		<string>README.markdown</string>
 		<string>system/language/english/lang.lg_live_look_ext.php</string>
 		<string>themes/cp_themes/default/lg_live_look/js/admin_publish.js</string>
+		<string>themes/cp_themes/default/lg_live_look/js/jquery.cookie.min.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
-	<false/>
+	<true/>
 	<key>windowFrame</key>
-	<string>{{93, 91}, {1042, 787}}</string>
+	<string>{{425, 91}, {1015, 787}}</string>
 </dict>
 </plist>
