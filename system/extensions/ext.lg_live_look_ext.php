@@ -78,7 +78,6 @@ class Lg_live_look_ext {
 	* @var boolean
 	*/
 	var $debug 				= FALSE;
-	
 
 	/**
 	* PHP4 Constructor
@@ -280,7 +279,6 @@ class Lg_live_look_ext {
 			// if there is an entry (edit page)
 			if($entry_id != FALSE)
 			{
-				$ret .= "<p style='float:left; margin-bottom:9px'><b>".$LANG->line("preview_of_published")."</b></p>";
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
 				$ret .= "<div style='border:1px solid #C5CFDA; margin:0 0 9px 0;'><iframe id='llp_frame' src='' style='background:#fff; border:none; padding:0; margin:0; width:100%;'></iframe></div>";
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
@@ -358,7 +356,7 @@ class Lg_live_look_ext {
 	{
 		if($this->debug === TRUE) print("<br />_parse_url");
 
-		global $DB, $FNS, $PREFS, $SESS;
+		global $DB, $EXT, $FNS, $IN, $PREFS, $REGX, $SESS;
 
 		$ret = '';
 
@@ -385,7 +383,21 @@ class Lg_live_look_ext {
 			}
 		}
 
-		return $ret;
+		$nsm_pp_query = $DB->query("SELECT class, settings FROM exp_extensions WHERE class = 'Nsm_publish_plus_ext' AND enabled = 'y' LIMIT 1");
+		if($nsm_pp_query->num_rows == 1)
+		{
+			$NSM_PP = new Nsm_publish_plus_ext;
+			if(($draft_id = $IN->GBL("draft_id")) !== FALSE)
+			{
+				$ret .= "/".$NSM_PP->settings["draft_trigger"] . "/" . $draft_id . "/";
+			}
+			elseif(($version_id = $IN->GBL("version_id")) !== FALSE)
+			{
+				$ret .= "/".$NSM_PP->settings["version_trigger"] . "/" . $version_id . "/";
+			}
+		}
+
+		return $FNS->remove_double_slashes($ret);
 	}
 
 	/**
