@@ -6,7 +6,7 @@
 * /system/language/english/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.0.3
+* @version 1.0.4
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -28,7 +28,7 @@ $L = array(
 'jquery_core_path_label'	=> 'jQuery Core 1.2.6 URL',
 
 'check_for_updates_title' 	=> 'Check for updates?',
-'check_for_updates_info' 	=> 'LG Live Look  can call home (<a href="http://leevigraham.com/">http://leevigraham.com</a>) and check for recent updates if you allow it. <strong>This feature requires <a href="http://leevigraham.com/cms-customisation/expressionengine/lg-addon-updater/">LG Addon Updater</a> to be installed and activated</strong>.',
+'check_for_updates_info' 	=> 'LG Live Look can call home (<a href="http://leevigraham.com/">http://leevigraham.com</a>) and check for recent updates if you allow it. <strong>This feature requires <a href="http://leevigraham.com/cms-customisation/expressionengine/lg-addon-updater/">LG Addon Updater</a> to be installed and activated</strong>.',
 'check_for_updates_label' 	=> 'Would you like this extension to check for updates and display them on your CP homepage?',
 
 'lg_admin_title'			=> 'LG Admin Options',
@@ -36,14 +36,15 @@ $L = array(
 'show_donate_label'			=> 'Show the donation link at the top of the settings page?',
 'show_promos_label'			=> 'Show promos at the top of the settings page?',
 
-"display_tab_label" 		=> "Display Tab",
-"display_link_label" 		=> "Display Link",
-"live_look_path_label"  	=> "Entry URL",
+"display_tab_label" 		=> "Display tab in the publish / edit form",
+"display_link_label" 		=> "Display link in the edit entries table",
+"disable_preview_label"		=> "Disable standard EE preview in the publish / edit form",
+"live_look_path_label"  	=> "Preview URL",
 "live_look"					=> "Live Look",
 
 "weblog_settings"		=> "Weblog Settings",
-"weblog_settings_info"	=> "<p>Each weblog has its own Live Look Path settings. A live look link will be added to the edit entries list.</p>
-							<p>The link url will have the following variables replaced with entry specific content:</p>
+"weblog_settings_info"	=> "<p>Each weblog has it's own unique settings to add a Live Look tab in the publish / edit form, add a Live Look link in the edit table and display the default publish / edit form preview. The Live Look tab and link will use the entry preview url.</p>
+							<p style='margin-top:9px'>The preview url setting will have the following variables replaced with entry specific attributes allowing you to create highly customisable urls:</p>
 							<ul style='overflow:auto;'>
 								<li style='width:33%; float:left;'>{url_title}</li>
 								<li style='width:33%; float:left;'>{entry_id}</li>
@@ -62,7 +63,7 @@ $L = array(
 								<li style='width:33%; float:left;'>{screen_name}</li>
 							</ul>",
 
-"save_entry_msg" => "Save this entry to enable Live Look.",
+"save_entry_msg" => "This entry must be saved at least once before it can be previewed in LG Live Look.",
 "enlarge_iframe" => "Enlarge Preview",
 "shrink_iframe" => "Shrink Preview",
 "preview_of_published" => "Preview of currently published entry:",

@@ -6,7 +6,7 @@
 * /system/extensions/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.0.3
+* @version 1.0.4
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -17,7 +17,7 @@ if ( ! defined('EXT')) exit('Invalid file request');
 
 if ( ! defined('LG_LL_version'))
 {
-	define("LG_LL_version",			"1.0.3");
+	define("LG_LL_version",			"1.0.4");
 	define("LG_LL_docs_url",		"http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/");
 	define("LG_LL_addon_id",		"LG Live Look");
 	define("LG_LL_extension_class",	"Lg_live_look_ext");
@@ -282,7 +282,6 @@ class Lg_live_look_ext {
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
 				$ret .= "<div style='border:1px solid #C5CFDA; margin:0 0 9px 0;'><iframe id='llp_frame' src='' style='background:#fff; border:none; padding:0; margin:0; width:100%;'></iframe></div>";
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
-				$ret .= '<script type="text/javascript" charset="utf-8">var lg_live_look_url = "'.$this->_parse_url($entry_id).'";</script>';
 			}
 			else
 			{
@@ -290,12 +289,12 @@ class Lg_live_look_ext {
 					<table cellspacing="0" cellpadding="0" border="0" style="width: 99%;" class="clusterBox"><tbody>
 										<tr>
 											<td valign="top" class="publishItemWrapper"><br/>
-												<h5>Live Look</h5>
 												<div class="highlight">'.$LANG->line('save_entry_msg').'</div>
 											</td>
 										</tr></tbody></table>
 				</div>';
 			}
+			$ret .= '<script type="text/javascript" charset="utf-8">var lg_live_look_url = "'.$this->_parse_url($entry_id).'";</script>';
 			$SESS->cache['lg'][LG_LL_addon_id]['require_scripts'] = TRUE;
 			$ret .= $DSP->div_c();
 			$ret .= $DSP->div_c();
@@ -322,26 +321,42 @@ class Lg_live_look_ext {
 		if($EXT->last_call !== FALSE)
 			$out = $EXT->last_call;
 
-		$js = "";
 		if(
-			isset($SESS->cache['lg'][LG_LL_addon_id]['require_scripts']) === TRUE &&
-			($IN->GBL('C', 'GET') == 'publish' || $IN->GBL('C', 'GET') == 'edit')
+			$this->settings['enable'] == 'y'
+			&& in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups'])
+			&& isset($SESS->cache['lg'][LG_LL_addon_id]['require_scripts']) === TRUE
+			&& ($IN->GBL('C', 'GET') == 'publish' || $IN->GBL('C', 'GET') == 'edit')
 		)
 		{
+			$js = "";
 			if(empty($SESS->cache['scripts']['jquery']['cookie']) === TRUE)
 			{
-				$js .= "\n<script type='text/javascript' charset='utf-8' src='". $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/lg_live_look/js/jquery.cookie.min.js'></script>";
-				$js .= "\n<script type='text/javascript' charset='utf-8' src='". $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/lg_live_look/js/admin_publish.js'></script>";
+				$js .= NL."<script type='text/javascript' charset='utf-8' src='". $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/lg_live_look/js/jquery.cookie.min.js'></script>";
 				$SESS->cache['scripts']['jquery']['cookie'] = TRUE;
 			}
+
+			$js .= NL."<script type='text/javascript' charset='utf-8' src='". $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/lg_live_look/js/admin_publish.js'></script>";
+
+			if(@$SESS->cache['nsm']['show_live_look_tab'] === TRUE || @$SESS->cache['lg']['show_live_look_tab'] === TRUE)
+			{
+				$js .= NL . '<script type="text/javascript" charset="utf-8">
+	$iframe.attr({"src": lg_live_look_url});
+	showblock("blockllp");
+	stylereset("llp");
+</script>';
+			}
+
+			if(
+				$this->settings["weblogs"][$IN->GBL("weblog_id")]["disable_preview"] == "y"
+				&& !preg_match("/fieldset.*?Error/mis", $out)
+			)
+			{
+				$css = '<style type="text/css" media="screen">fieldset.previewBox{display:none}</style>';
+				$out = str_replace("</head>", $css . "</head>", $out);
+			}
+			$out = str_replace("</body>", $js . "</body>", $out);
 		}
 
-		if(($IN->GBL('save') || $IN->GBL('nsm_pp_save_as_draft')))
-		{
-			$js .= "\n<script type='text/javascript' charset='utf-8'>\$iframe.attr({'src': lg_live_look_url});showblock('blockllp');stylereset('llp');</script>";
-		}
-		
-		$out = str_replace("</body>", $js . "</body>", $out);
 		return $out;
 	}
 
@@ -352,13 +367,15 @@ class Lg_live_look_ext {
 	* @param array $row Data from the exp_weblog_titles table
 	* @return string the new url with {ee} variables replaced
 	**/
-	function _parse_url( $entry_id, $row = FALSE )
+	function _parse_url( $entry_id = FALSE, $row = FALSE )
 	{
 		if($this->debug === TRUE) print("<br />_parse_url");
 
 		global $DB, $EXT, $FNS, $IN, $PREFS, $REGX, $SESS;
 
 		$ret = '';
+		
+		if(empty($entry_id) === TRUE) return FALSE;
 
 		if(isset($PREFS->core_ini["site_pages"]["uris"][$entry_id]))
 		{
@@ -393,7 +410,11 @@ class Lg_live_look_ext {
 			}
 			elseif(($version_id = $IN->GBL("version_id")) !== FALSE)
 			{
-				$ret .= "/".$NSM_PP->settings["version_trigger"] . "/" . $version_id . "/";
+				$ret .= "/".$NSM_PP->settings["revision_trigger"] . "/" . $version_id . "/";
+			}
+			elseif(($preview_id = $IN->GBL("preview_id")) !== FALSE)
+			{
+				$ret .= "/".$NSM_PP->settings["preview_trigger"] . "/" . $preview_id . "/";
 			}
 		}
 
@@ -497,7 +518,7 @@ class Lg_live_look_ext {
 			</style>";
 			$DSP->body .= "<p id='donate'>
 							" . $LANG->line('donation') ."
-							<a rel='external' href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=sales%30newism%2ecom%2eau&amp;item_name=LG%20Expression%20Engine%20Development&amp;amount=%2e00&amp;no_shipping=1&amp;return=http%3a%2f%2fleevigraham%2ecom%2fdonate%2fthanks&amp;cancel_return=http%3a%2f%2fleevigraham%2ecom%2fdonate%2fno%2dthanks&amp;no_note=1&amp;tax=0&amp;currency_code=USD&amp;lc=US&amp;bn=PP%2dDonationsBF&amp;charset=UTF%2d8' class='button' target='_blank'>Donate</a>
+							<a rel='external' href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=sales@newism%2ecom%2eau&amp;item_name=LG%20Expression%20Engine%20Development&amp;amount=10%2e00&amp;no_shipping=1&amp;return=http%3a%2f%2fleevigraham%2ecom%2fdonate%2fthanks&amp;cancel_return=http%3a%2f%2fleevigraham%2ecom%2fdonate%2fno%2dthanks&amp;no_note=1&amp;tax=0&amp;currency_code=USD&amp;lc=US&amp;bn=PP%2dDonationsBF&amp;charset=UTF%2d8' class='button' target='_blank'>Donate</a>
 						</p>";
 		}
 
@@ -589,7 +610,7 @@ class Lg_live_look_ext {
 				$weblog_settings = $this->settings['weblogs'][$row['weblog_id']];
 
 				$DSP->body .= $DSP->tr()
-					. "<td class='{$class}' rowspan='3' width='30%'>"
+					. "<td class='{$class}' rowspan='4' width='150px'>"
 					. $DSP->qdiv('defaultBold', $row['blog_title']);
 					
 				$DSP->body .= $DSP->td($class)
@@ -615,7 +636,19 @@ class Lg_live_look_ext {
 					. $DSP->tr_c();
 
 				$DSP->body .= $DSP->tr()
-							. $DSP->td($class, '100px')
+							. $DSP->td($class, '250px')
+							. "<small>".$LANG->line('disable_preview_label').":</small>"
+							. $DSP->td_c()
+							. $DSP->td($class)
+							. "<select name='weblogs[".$row['weblog_id']."][disable_preview]'>"
+								. $DSP->input_select_option('y', "Yes", ((@$weblog_settings['disable_preview'] == 'y') ? 'y' : '' ))
+								. $DSP->input_select_option('n', "No", ((@$weblog_settings['disable_preview'] == 'n') ? 'y' : '' ))
+								. $DSP->input_select_footer()
+							. $DSP->td_c()
+							. $DSP->tr_c();
+
+				$DSP->body .= $DSP->tr()
+							. $DSP->td($class, '')
 							. "<small>".$LANG->line('live_look_path_label').":</small>"
 							. $DSP->td_c()
 							. $DSP->td($class)
@@ -631,36 +664,6 @@ class Lg_live_look_ext {
 		}
 
 		$DSP->body .= $DSP->table_c();
-
-
-		// JQUERY
-		/*
-		$DSP->body .= $DSP->table_open(array('class' => 'tableBorder', 'border' => '0', 'style' => 'margin-top:18px; width:100%'));
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('tableHeading', '', '2')
-			. $LANG->line("scripts")
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('', '', '2')
-			. "<div class='box' style='border-width:0 0 1px 0; margin:0; padding:10px 5px'><p>" . $LANG->line('scripts_info'). "</p></div>"
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('tableCellOne', '30%')
-			. $DSP->qdiv('defaultBold', $LANG->line('jquery_core_path_label'))
-			. $DSP->td_c();
-
-		$DSP->body .= $DSP->td('tableCellOne')
-			. $DSP->input_text('jquery_core_path', $settings['jquery_core_path'])
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-		$DSP->body .= $DSP->table_c();
-		*/
 
 		// UPDATES
 		$DSP->body .= $DSP->table_open(array('class' => 'tableBorder', 'border' => '0', 'style' => 'margin-top:18px; width:100%'));
@@ -791,7 +794,7 @@ class Lg_live_look_ext {
 								'allowed_member_groups'		=> array(1),
 								'weblogs'					=> array(),
 								'check_for_updates'			=> 'y',
-								'jquery_core_path' 	=> 'http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js',
+								'disable_preview' 			=> 'n'
 							);
 
 		// get all the sites
