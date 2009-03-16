@@ -26,28 +26,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>51</integer>
+				<integer>23</integer>
 				<key>line</key>
-				<integer>22</integer>
+				<integer>23</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>27</integer>
 		</dict>
 		<key>system/extensions/ext.lg_live_look_ext.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>54</integer>
 				<key>line</key>
-				<integer>560</integer>
+				<integer>291</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>554</integer>
+			<integer>166</integer>
 		</dict>
 		<key>system/language/english/lang.lg_live_look_ext.php</key>
 		<dict>
@@ -58,20 +58,6 @@
 				<key>line</key>
 				<integer>8</integer>
 			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>themes/cp_themes/default/lg_live_look/js/admin_publish.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>42</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
@@ -81,17 +67,31 @@
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>15</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>8</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>42</integer>
+				<integer>16</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>8</integer>
 			</dict>
+		</dict>
+		<key>themes/cp_themes/default/lg_live_look/js/admin_publish.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>2</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>themes/cp_themes/default/lg_live_look/js/jquery.cookie.min.js</key>
 		<dict>
@@ -110,8 +110,8 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>system/extensions/ext.lg_live_look_ext.php</string>
 		<string>README.markdown</string>
+		<string>system/extensions/ext.lg_live_look_ext.php</string>
 		<string>system/language/english/lang.lg_live_look_ext.php</string>
 		<string>themes/cp_themes/default/lg_live_look/js/admin_publish.js</string>
 		<string>themes/cp_themes/default/lg_live_look/js/jquery.cookie.min.js</string>
@@ -119,6 +119,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{425, 91}, {1015, 787}}</string>
+	<string>{{300, 75}, {1015, 787}}</string>
 </dict>
 </plist>
