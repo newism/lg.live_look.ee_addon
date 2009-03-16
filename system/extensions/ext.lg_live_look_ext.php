@@ -279,6 +279,19 @@ class Lg_live_look_ext {
 			// if there is an entry (edit page)
 			if($entry_id != FALSE)
 			{
+				if(($draft_id = $IN->GBL("draft_id")) !== FALSE)
+				{
+					$ret .= "<p style='float:left; margin:6px 0 0 0'><strong>Draft #" . $draft_id . "</strong></p>";
+				}
+				elseif(($version_id = $IN->GBL("version_id")) !== FALSE)
+				{
+					$ret .= "<p style='float:left; margin:6px 0 0 0'><strong>Version #" . $version_id . "</strong></p>";
+				}
+				elseif(($preview_id = $IN->GBL("preview_id")) !== FALSE)
+				{
+					$ret .= "<p style='float:left; margin:6px 0 0 0'><strong>Preview #" . $preview_id . "</strong></p>";
+				}
+				
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
 				$ret .= "<div style='border:1px solid #C5CFDA; margin:0 0 9px 0;'><iframe id='llp_frame' src='' style='background:#fff; border:none; padding:0; margin:0; width:100%;'></iframe></div>";
 				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' onclick='return enlarge_iframe();' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='return shrink_iframe();' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
@@ -828,7 +841,7 @@ class Lg_live_look_ext {
 	*/
 	function activate_extension()
 	{
-		global $DB, $PREFS;
+		global $DB, $FNS, $PREFS;
 
 		$default_settings = $this->_build_default_settings();
 
@@ -860,7 +873,8 @@ class Lg_live_look_ext {
 				$settings[$row['site_id']]['weblogs'][$row['weblog_id']] = array(
 					'display_link' 		=> 'n',
 					'display_tab'		=> 'n',
-					'live_look_path' 	=> ''
+					'live_look_path' 	=> $FNS->remove_double_slashes($row["comment_url"]."/{entry_id}/"),
+					'disable_preview' 	=> 'n'
 				);
 			}
 		}
@@ -916,6 +930,8 @@ class Lg_live_look_ext {
 			return FALSE;
 		}
 
+		$sql = array();
+
 		// add our new robots options
 		if ($current < '1.0.2')
 		{
@@ -934,6 +950,23 @@ class Lg_live_look_ext {
 												'settings'		=> addslashes(serialize($this->settings))
 											)
 										));
+		}
+
+		if ($current < '1.0.4')
+		{
+			$this->settings = $this->_get_settings(TRUE, TRUE);
+
+			// add our new default settings
+			foreach ($this->settings as $site_id => $settings)
+			{
+				foreach ($settings['weblogs'] as $weblog_id => $weblog_settings)
+				{
+					$this->settings[$site_id]['weblogs'][$weblog_id]["disable_preview"] = "n";
+				}
+			}
+
+			$update_string = "UPDATE `exp_extensions` SET `settings` = '".addslashes(serialize($this->settings))."' WHERE `exp_extensions`.`class` = '".get_class($this)."';";
+			$DB->query($update_string);
 		}
 
 		$sql[] = "UPDATE `exp_extensions` SET `version` = '" . $DB->escape_str($this->version) . "' WHERE `class` = '" . get_class($this) . "'";
