@@ -396,13 +396,18 @@ class Lg_live_look_ext {
 		}
 		elseif($row === FALSE)
 		{
-			$query = $DB->query("SELECT * FROM `exp_weblog_titles` WHERE entry_id = " . $entry_id . " LIMIT 1");
+			$query = $DB->query("SELECT * FROM `exp_weblog_titles` 
+								LEFT JOIN `exp_weblog_data` 
+								ON `exp_weblog_titles`.`entry_id` = `exp_weblog_data`.`entry_id`
+								WHERE `exp_weblog_titles`.`entry_id` = " . $entry_id . " LIMIT 1");
+
 			if($query->num_rows > 0)
 			{
 				$query->row['entry_date_day'] = date('d', $query->row['entry_date']);
 				$query->row['entry_date_month'] = date('m', $query->row['entry_date']);
 				$query->row['entry_date_year'] = date('Y', $query->row['entry_date']);
 				$ret = $this->settings['weblogs'][$query->row['weblog_id']]['live_look_path'];
+
 				foreach ($query->row as $key => $value)
 				{
 					if(strpos($ret, LD.$key.RD) !== FALSE)
