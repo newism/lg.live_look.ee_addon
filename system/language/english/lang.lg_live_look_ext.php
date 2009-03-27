@@ -18,7 +18,7 @@ $L = array(
 "lg_image_preview_title" => "LG Live Look",
 
 'access_rights' 	=> 'Extension Access',
-'enable_extension_for_this_site' => 'Enable LG Live Look Path for this site?',
+'enable_extension_for_this_site' => 'Enable LG Live Look for this site?',
 
 'which_groups_label'	=> 'Which member groups will see the LG Live Look tab and links?',
 'no_weblogs_msg' 		=> 'There are no weblogs assigned to this site.',
@@ -36,14 +36,14 @@ $L = array(
 'show_donate_label'			=> 'Show the donation link at the top of the settings page?',
 'show_promos_label'			=> 'Show promos at the top of the settings page?',
 
-"display_tab_label" 		=> "Display tab in the publish / edit form",
-"display_link_label" 		=> "Display link in the edit entries table",
-"disable_preview_label"		=> "Disable standard EE preview in the publish / edit form",
+"display_tab_label" 		=> "Display tab in the Publish Form",
+"display_link_label" 		=> "Display link in the Edit Page",
+"disable_preview_label"		=> "Disable standard EE preview in the Publish Form",
 "live_look_path_label"  	=> "Preview URL",
 "live_look"					=> "Live Look",
 
 "weblog_settings"		=> "Weblog Settings",
-"weblog_settings_info"	=> "<p>Each weblog has it's own unique settings to add a Live Look tab in the publish / edit form, add a Live Look link in the edit table and display the default publish / edit form preview. The Live Look tab and link will use the entry preview url.</p>
+"weblog_settings_info"	=> "<p>Each weblog has it's own unique settings to add a Live Look tab in the publish / edit form, add a Live Look link in the edit table and display the default Publish Form preview. The Live Look tab and link will use the entry preview url.</p>
 							<p style='margin-top:9px'>The preview url setting will have the following variables replaced with entry specific attributes allowing you to create highly customisable urls:</p>
 							<ul style='overflow:auto;'>
 								<li style='width:33%; float:left;'>{url_title}</li>
