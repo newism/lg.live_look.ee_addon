@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<script type="text/javascript" charset="utf-8">document.getElementsByTagName("HTML")[0].className += " JS";</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>LG Live Look | Documentation | Version 1.1.0 - Now with Publish Plus Integration!</title>
+	<link rel="stylesheet" href="http://github.com/newism/nsm.documentation_assets/raw/482f002c2975db82b17431713c3c3388d9e310c2/css/screen.css" type="text/css" charset="utf-8">
+</head>
+<body>
+	<div id="doc">
+		<div id="content">
+			<h1 class="page-title">LG Live Look v1.1.0 Documentation <span>View entries in template context from the ExpressionEngine control panel publish tab and edit entry table.</span></h1>
+			<h2 id="overview">Overview</h2>
+			<p>LG Live Look is a <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/downloads/details/multiple_site_manager/" rel="external">Multi-Site Manager</a> compatible <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/downloads/addons/category/extensions/" rel="external">ExpressionEngine extension</a> that allows you to view the latest published revision of an entry in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/index.html" rel="external">ExpressionEngine control panel</a>.</p>
+			<p><strong>But that's not all&hellip; When installed along side <a href="http://leevigraham.com/cms-customisation/expressionengine/nsm-publish-plus/">NSM Publish Plus</a>, LG Live Look adds the ability to preview unpublished entries, drafts and revisions in template context</strong>.</p>
+			<p>When activated a Live Look tab is added to the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a> which displays the entry in a rendered template and a Live Look links are added to the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/edit/index.html" rel="external">Edit Page</a>.</p>
+			<h3 id="the-problem">The problem</h3>
+			<p><a href="http://www.expressionengine.com/index.php?affiliate=newism" rel="external">ExpressionEngine</a> implemented <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/blog/entry/expressionengine_161_released/" rel="external">'Live Look'</a> entry previews in <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/changelog.html#v161">version 1.6.1</a>. While a welcome addition, it didn’t quite match my development workflow.</p>
+			<p><acronym title="In my humble opinion">IMHO</acronym>, problems with the original Live Look are:</p>
+			<ol>
+				<li>it doesn't allow custom urls and forced you to use <samp>/template_group/template/entry_id/</samp>. This doesnt't suit my site which used custom url formats including the <code>&#123;url_title&#125;</code> parameter.</li>
+				<li>it doesn't support urls generated in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/downloads/details/pages_module/" rel="external">Pages Module</a>.</li>
+				<li>there is no way to view the entry in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html" rel="external">Publish Form</a>.</li>
+				<li>the third issue, which isn't directly related to the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/blog/entry/expressionengine_161_released/" rel="external">original Live Look</a> (but is a general entry 'preview' issue), was that there is no way to preview updates to an existing entry before it was pushed live. That is why I integrated <a href="http://leevigraham.com/cms-customisation/expressionengine/nsm-publish-plus/" rel="external">NSM Publish Plus</a> which adds the fore-mentioned functionality to LG Live Look.</li>
+			</ol>
+			<h2 id="features">Features</h2>
+			<p>LG Live Look has many features to enhance your publishing workflow. They include:</p>
+			<ul>
+				<li><strong><a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a> Live Look tab</strong> - View published entry revisions in template context from the CP <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a>. Previewing unpublished changes to entries, viewing drafts and revisions requires <a href="http://leevigraham.com/cms-customisation/expressionengine/nsm-publish-plus/" rel="external">NSM Publish Plus</a>.</li>
+				<li><strong><a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/edit/index.html" rel="external">Edit Page</a> Live Look links</strong> - Quick navigation to the live entry from the edit entries table.</li>
+				<li><strong>Hide default preview box</strong> - Remove the standard <a href="http://www.expressionengine.com/index.php?affiliate=newism" rel="external">ExpressionEngine</a> entry preview.</li>
+			</ul>
+			<p>It's also:</p>
+			<ul>
+				<li><strong><a href="http://leevigraham.com/cms-customisation/expressionengine/nsm-publish-plus/" rel="external">NSM Publish Plus</a> compatible</strong> - Real template powered entry previews, drafts and revisions!</li>
+				<li><strong><a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/downloads/details/multiple_site_manager/" rel="external">Multi-Site Manager</a> compatible</strong> - Independent extension settings for each site</li>
+				<li><strong><a href="http://leevigraham.com/cms-customisation/expressionengine/lg-addon-updater" rel="external">LG Addon Updater</a> compatible</strong> - Stay up-to-date with the latest versions of LG Live Look</li>
+				<li><strong>Actively developed</strong> by the <a href="http://devot-ee.com/articles/item/first-annual-academee-awards/" rel="external">"ExpressionEngine developer of the Year"</a></li>
+			</ul>
+			<h2 id="screenshots">Screenshots</h2>
+			<ul class="screenshots">
+				<li class="figure figure-a figure-thumbnail">
+					<a href="./img/lg_ll-publish_tab.png" title="LG Live Look - Publish Tab preview"><br />
+						<img src="./img/lg_ll-publish_tab-thumb.png" width="219" height="219" alt="LG Live Look - Publish Tab preview">
+						<span class="caption">Publish Tab entry preview</span>
+					</a>
+				</li>
+				<li class="figure figure-a figure-thumbnail">
+					<a href="./img/lg_ll-edit_table.png" title="LG Live Look - Edit table links"><br />
+						<img src="./img/lg_ll-edit_table-thumb.png" width="219" height="219" alt="LG Live Look - Edit table links">
+						<span class="caption">Edit table links</span>
+					</a>
+				</li>
+				<li class="figure figure-a figure-thumbnail">
+					<a href="./img/lg_ll-extension_settings.png" title="LG Live Look - Extension Settings"><br />
+						<img src="./img/lg_ll-extension_settings-thumb.png" width="219" height="219" alt="LG Live Look - Extension Settings">
+						<span class="caption">Extension Settings</span>
+					</a>
+				</li>
+			</ul>
+
+			<h2 id="user-guide">User guide</h2>
+			<h3 id="user-guide:requirements">Requirements</h3>
+			<p>LG Live Look has been tested on <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/changelog.html#v165" rel="external">ExpressionEngine 1.6.5</a>+, but may work on <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/changelog.html" rel="external">earlier versions</a>.</p>
+			<p>To function correctly javascript must enabled and the <a href="http://jquery.com/" rel="external">jQuery javascript library</a> must be loaded in the control panel (added in version 1.0.1). jQuery can easily be included using <a href="http://leevigraham.com/cms-customisation/expressionengine/lg-add-sitename/" rel="external">LG Add Sitename</a> (preferred method) or the <a href="http://www.ngenworks.com/software/ee/cp_jquery/" rel="external">CP jQuery extension</a> which is bundled with <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/changelog.html#v166">ExpressionEngine 1.6.6</a>+</p>
+			<p>Previewing unpublished drafts, entry drafts and old revisions require <a href="http://leevigraham.com/cms-customisation/expressionengine/nsm-publish-plus/" rel="external">NSM Publish Plus</a>.</p>
+			<p>The user must also be using a <a href="http://apple.com/safari/" rel="external">modern</a> <a href="http://opera.com" rel="external">web</a> <a href="http://getfirefox.com/" rel="external">browser</a> (any thing better than IE6).</p>
+
+			<h3 id="user-guide:download">Download</h3>
+			<p><a href="http://leevigraham.com/cms-customisation/expressionengine/lg-live-look/#download">Download version 1.1.0 of LG Live Look</a>.</p>
+
+			<h3 id="user-guide:installation">Installation</h3>
+			<p>The LG Live Look extension contains an extension and language folder. To install LG Live Look follow the instructions below:</p>
+			<ol>
+				<li><a href="http://leevigraham.com/cms-customisation/expressionengine/lg-live-look/#download">Download</a> the latest version of LG Live Look</li>
+				<li>Extract the .zip file to your desktop</li>
+				<li>Copy <span class="file-path">/extensions/ext.lg_live_look_ext.php</span> file to your <span class="file-path">/extensions/</span> directory</li>
+				<li>Copy <span class="file-path">/language/english/lang.lg_live_look_ext.php</span> file to your <span class="file-path">/languages/english/</span> directory</li>
+				<li><a href="#user-guide:activation">Activate</a> LG Live Look</li>
+			</ol>
+			<h3 id="user-guide:activation">Activation</h3>
+			<ol>
+				<li>Open the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/admin/utilities/extension_manager.html" rel="external">Extension Manager</a></li>
+				<li>Enable Extensions if not already enabled</li>
+				<li>Enable LG Live Look</li>
+				<li><a href="#user-guide:configuration">Configure</a> LG Live Look</li>
+			</ol>
+
+			<h3 id="user-guide:configuration">Configuration</h3>
+			<h4 id="user-guide:configuration:extension-settings">Extension settings</h4>
+			<p>LG Live Look has the following extension settings which <strong>need to be entered separately for each <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/downloads/details/multiple_site_manager/" rel="external">Multi-Site Manager</a> site</strong>.</p>
+
+			<h5 id="user-guide:configuration:extension-settings:extension-access">Extension access</h5>
+			<h6>Enable LG Live Look for this site? <small>[required]</small></h6>
+			<pre><kbd>Yes|No</kbd></pre>
+			<p>Enabling LG Live Look will add a new Live Look tab to the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a> and a Live Look link to the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/edit/index.html" rel="external">Edit Page</a>.</p>
+
+			<h6>Which member groups will see the LG Live Look tab and links?</h6>
+			<p>Allowed member groups will see a Live Look tab and link in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a> and <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/edit/index.html" rel="external">Edit Page</a>.</p>
+
+			<h5 id="user-guide:configuration:extension-settings:weblog-settings">Weblog Settings</h5>
+
+			<h6>Display tab in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a></h6>
+			<pre><kbd>Yes|No</kbd></pre>
+			<p>Displays the Live Look tab in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a> for this weblog.</p>
+
+			<h6>Display link in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/edit/index.html" rel="external">Edit Page</a></h6>
+			<pre><kbd>Yes|No</kbd></pre>
+			<p>Displays the Live Look link in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/edit/index.html" rel="external">Edit Page</a> entries table for this weblog.</p>
+
+			<h6>Disable standard EE preview in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a></h6>
+			<pre><kbd>Yes|No</kbd></pre>
+			<p>Hides the standard un-styled <a href="http://www.expressionengine.com/index.php?affiliate=newism" rel="external">ExpressionEngine</a> preview from the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a>.</p>
+
+			<h6>Preview URL</h6>
+			<pre><kbd>/blog/post/&#123;entry_id&#125;/&#123;url_title&#125;/</kbd></pre>
+			<p>Each weblog has it's own unique settings to add a Live Look tab in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a>, add a Live Look link in the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/edit/index.html" rel="external">Edit Page</a> table and display the default <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/publish/index.html#tab_publish_form" rel="external">Publish Form</a> preview. The Live Look tab and link will use the entry preview url.</p>
+			<p>The preview url setting will have the following variables replaced with entry specific attributes allowing you to create highly customisable urls:</p>
+			<ul class='g g4'>
+				<li>&#123;url_title&#125;</li>
+				<li>&#123;entry_id&#125;</li>
+				<li>&#123;weblog_id&#125;</li>
+				<li>&#123;title&#125;</li>
+				<li>&#123;author_id&#125;</li>
+				<li>&#123;status&#125;</li>
+				<li>&#123;entry_date_day&#125;</li>
+				<li>&#123;entry_date_month&#125;</li>
+				<li>&#123;entry_date_year&#125;</li>
+				<li>&#123;dst_enabled&#125;</li>
+				<li>&#123;comment_total&#125;</li>
+				<li>&#123;trackback_total&#125;</li>
+				<li>&#123;username&#125;</li>
+				<li>&#123;email&#125;</li>
+				<li>&#123;screen_name&#125;</li>
+				<li>&#123;field_id_<em>n</em>&#125;</li>
+			</ul>
+			<p>LG Live Look will also replace the entries custom fields with their values. Eg: <samp>{field_id_2}</samp> will use the data stored in the custom field and insert it into the url.</p>
+
+			<h5 id="user-guide:configuration:extension-settings:check-for-updates">Check for updates</h5>
+			<h6>Would you like this extension to check for updates and display them on your CP homepage?</h6>
+			<pre><kbd>Yes|No</kbd></pre>
+			<p>LG Live Look can call home and check for recent updates if you allow it. This feature requires <a href="http://leevigraham.com/cms-customisation/expressionengine/lg-addon-updater" rel="external">LG Addon Updater</a> to be installed and activated.</p>
+
+			<h3 id="user-guide:configuration:creating-templates">Creating LG Live Look templates</h3>
+
+			<p>The Live Look tab displays the webpage that corresponds to the parsed Live Look URL inside an iFrame. If you can see the entry by typing in the URL into a browser directly you can see the entry in the Live Look tab.</p>
+			<p>What does this mean for <em>closed</em>, <em>pending</em> or <em>future entries</em>? You may need to adjust your existing weblog entries tag to show the entry or create a new "preview" template all together.</p>
+			<h4>Index template</h4>
+			<p>Index templates (eg: <samp>/blog/</samp>), will always require an additional "preview" template that displays entries that aren't visible by default. Without a additional "preview" template you may inadvertently display unpublished entries to the general public.</p>
+			<h4>Entry template</h4>
+			<p>Single entry templates are slightly different. It is possible to preview hidden entries by updating the <code>&#123;weblog:entries&#125;</code> tag parameters and viewing the url directly. </p>
+
+			<h4>Example</h4>
+			<p>A quick example using the following information:</p>
+			<ul>
+				<li>LG Live Look URL is set to the entry page eg: <code>/blog/post/{entry_id}/{url_title}/</code></li>
+				<li>The entry status is set to <em>pending</em></li>
+				<li>The standard index template (<code>/blog/index/</code>) only displays open and featured entries; ie: <code>status="open|Featured"</code>.</li>
+				<li>The preview index template (<code>/blog/index_preview/</code>) only displays open, featured and pending entries; ie: <code>status="open|Featured|Pending"</code> but is restricted from general viewing using <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/docs/cp/templates/template_access.html" rel="external">Template Access Restrictions</a>.</li>
+				<li>The entry template (<code>/blog/post/</code>) displays open, featured and pending entries; ie: <code>status="open|Featured|Pending"</code></li>
+			</ul>
+			<p>The end result:</p>
+			<ul>
+				<li>The entry will not be rendered in the standard index template because it's status is not <em>open</em> or <em>featured</em>. As a result the general public will not be able to navigate to the entry page.</li>
+				<li>The entry will be rendered in the index preview unless the member is granted template access permissions.</li>
+				<li>All users will be able to view the entry template by manually typing the url into the browser.</li>
+				<li>LG Live Look will automatically display the entry template in the LG Live Look Tab.</li>
+			</ul>
+			<h4>Troubleshooting</h4>
+			<p>After setting yup your templates correctly, if your entry is not being loaded here are some items to check:</p>
+			<ol>
+				<li>Is the entry status set to closed or not open?</li>
+				<li>Are the weblog entry tag parameters correct?
+					<ul>
+						<li>Check the status parameter and try <samp>status="not closed"</samp>.</li>
+						<li>Is the entry published in the future? If so try <samp>show_future_entries="yes"</samp>.</li>
+						<li>Check the <samp>weblog=""</samp> parameter</li>
+					</ul>
+				</li>
+			</ol>
+			<h4>Further reading</h4>
+			<p>I've written up a <a href="http://newism.com.au/blog/post/61/expressionengine-weblog-entry-previews-with-lg-live-look/" rel="external">full tutorial on setting up your templates for LG Live Look</a> over on the <a href="http://newism.com.au" rel="external">Newism Blog</a>. Additional information about setting up Live Look templates can also be found <a href="http://www.derekallard.com/blog/post/setting-up-live-look-in-expressionengine/" rel="external">here</a> and <a href="http://www.nsteffen.com/archives/view/setting-up-a-preview-page-in-expressionengine/" rel="external">here</a>.</p>
+
+			<h3 id="upgrade-notes">Upgrade notes</h3>
+			<h4>Version 1.0.1</h4>
+			<ul>
+				<li>Automatic insertion of jQuery has been removed. To function correctly javascript must enabled and the jQuery javascript library must be loaded in the control panel. jQuery can easily be included using LG Add Sitename (preferred method) or the CP jQuery extension which is bundled with ExpressionEngine 1.6.6+</li>
+			</ul>
+
+			<h2 id="release-notes">Release notes</h2>
+			<h3>Version 1.1.0</h3>
+			<ul>
+				<li>Added <a href="http://leevigraham.com/cms-customisation/expressionengine/nsm-publish-plus/" rel="external">NSM Publish Plus</a> integration!!!</li>
+				<li>Added custom field id support for urls eg: {field_id_9}
+				<li>Rewrote documentation</li>
+			</ul>
+
+			<h3>Version 1.0.2</h3>
+			<ul>
+				<li>Added Quicksave integration including support for new entries (<a href="http://expressionengine.com/forums/viewreply/473238/">bug</a>)</li>
+			</ul>
+
+			<h3>Version 1.0.1</h3>
+			<ul>
+				<li>Added Pages Module integration - Entries will use their &#123;page_url&#125; (where applicable) rather than the generated URL based on the extension settings (<a href="http://expressionengine.com/forums/viewreply/473025/">fr</a>)</li>
+				<li>Fixed LANG file (<a href="http://expressionengine.com/forums/viewreply/477007/">bug</a>)</li>
+				<li>Separated Javascript from extension file</li>
+				<li>Added <a href="http://jquery.com/" rel="external">jQuery</a> dependency and removed "Scripts" extension setting</li>
+			</ul>
+
+			<h3>Version 1.0.0</h3>
+			<ul>
+				<li>Initial Release w/ docs</li>
+			</ul>
+
+			<h2 id="other-topics">Other topics</h2>
+			<h3 id="other-topics:support">Support</h3>
+			<p>Technical support is available primarily through the <a href="http://www.expressionengine.com/index.php?affiliate=newism&amp;page=/forums/">ExpressionEngine forums</a>. Leevi Graham and <a href="http://newism.com.au" rel="external">Newism</a> do not provide direct phone support. No representations or guarantees are made regarding the response time in which support questions are answered.</p>
+			<h3 id="other-topics:upgrades">Upgrades</h3>
+			<p>Although we are actively developing LG Live Look, Leevi Graham and <a href="http://newism.com.au" rel="external">Newism</a> makes no guarantees that this extension will be upgraded within any specific timeframe.</p>
+			<h2 id="other-topics:license">License</h2>
+			<p>LG Live Look is currently available for use in all personal or commercial projects under <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 Unported</a> license.</p>
+			<p>You are free to:</p>
+			<ul>
+				<li><strong>Share</strong> - to copy, distribute and transmit the work</li>
+				<li><strong>Remix</strong> - to adapt the work</li>
+			</ul>
+			<p>Under the following conditions:</p>
+			<ul>
+				<li><strong>Attribution</strong> - You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).</li>
+				<li><strong>Share Alike</strong> - If you alter, transform, or build upon this work, you may distribute the resulting work only under the same, similar or a compatible license.</li>
+			</ul>
+		</div>
+		<div id="sub-content">
+			<div id="toc"></div>
+		</div>
+	</div>
+	<div id="foot"></div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://github.com/newism/nsm.toc.jquery_plugin/raw/6223836806ed5820f1c6cad7f7999b5112a00f55/jquery-nsm_TOC.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		$("body").nsm_TOC({
+			generate_toc:	true,
+			toc_el:			"#toc",
+			toc_title:		false,
+			min_depth:		2,
+			max_depth:		4
+		});
+		$('a[rel="external"]').click( function() {
+			window.open( $(this).attr('href') );
+			return false;
+		});
+	</script>
+</body>
+</html>
