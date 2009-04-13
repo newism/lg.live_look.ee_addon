@@ -40,14 +40,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>54</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>291</integer>
+				<integer>929</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>166</integer>
+			<integer>935</integer>
 		</dict>
 		<key>system/language/english/lang.lg_live_look_ext.php</key>
 		<dict>
@@ -119,6 +119,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{300, 75}, {1015, 787}}</string>
+	<string>{{303, 391}, {1015, 787}}</string>
 </dict>
 </plist>

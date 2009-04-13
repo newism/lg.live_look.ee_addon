@@ -6,7 +6,7 @@
 * /system/extensions/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.0.4
+* @version 1.1.0
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -17,7 +17,7 @@ if ( ! defined('EXT')) exit('Invalid file request');
 
 if ( ! defined('LG_LL_version'))
 {
-	define("LG_LL_version",			"1.0.4");
+	define("LG_LL_version",			"1.1.0");
 	define("LG_LL_docs_url",		"http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/");
 	define("LG_LL_addon_id",		"LG Live Look");
 	define("LG_LL_extension_class",	"Lg_live_look_ext");
@@ -28,7 +28,7 @@ if ( ! defined('LG_LL_version'))
 * This extension adds a image preview to the edit page.
 *
 * @package LgLiveLook
-* @version 1.0.1
+* @version 1.1.0
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -419,6 +419,7 @@ class Lg_live_look_ext {
 		}
 
 		$nsm_pp_query = $DB->query("SELECT class, settings FROM exp_extensions WHERE class = 'Nsm_publish_plus_ext' AND enabled = 'y' LIMIT 1");
+
 		if($nsm_pp_query->num_rows == 1)
 		{
 			$NSM_PP = new Nsm_publish_plus_ext;
@@ -811,8 +812,7 @@ class Lg_live_look_ext {
 								'show_promos'				=> 'y',
 								'allowed_member_groups'		=> array(1),
 								'weblogs'					=> array(),
-								'check_for_updates'			=> 'y',
-								'disable_preview' 			=> 'n'
+								'check_for_updates'			=> 'y'
 							);
 
 		// get all the sites
@@ -829,7 +829,8 @@ class Lg_live_look_ext {
 				$default_settings['weblogs'][$row['weblog_id']] = array(
 					'display_link' 		=> 'n',
 					'display_tab' 		=> 'n',
-					'live_look_path' 	=> ''
+					'live_look_path' 	=> '',
+					'disable_preview' 	=> 'n'
 				);
 			}
 		}
