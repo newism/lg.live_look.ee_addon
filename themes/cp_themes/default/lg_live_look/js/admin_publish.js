@@ -1,7 +1,7 @@
 (function($) {
 
 	h = $.cookie("lg_live_look_h") || 200;
-	var $iframe = $("#llp_frame").attr({"height": h+"px"});
+	$iframe = $("#llp_frame").attr({"height": h+"px"});
 
 	$(".publishTabWidth a").click(function(){
 		if($(this).text() == "Live Look" || $(this).text() == "Show All"){
