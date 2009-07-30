@@ -6,7 +6,7 @@
 * /system/extensions/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.1.0
+* @version 1.1.2
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -17,7 +17,7 @@ if ( ! defined('EXT')) exit('Invalid file request');
 
 if ( ! defined('LG_LL_version'))
 {
-	define("LG_LL_version",			"1.1.0");
+	define("LG_LL_version",			"1.1.2");
 	define("LG_LL_docs_url",		"http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/");
 	define("LG_LL_addon_id",		"LG Live Look");
 	define("LG_LL_extension_class",	"Lg_live_look_ext");
@@ -28,7 +28,7 @@ if ( ! defined('LG_LL_version'))
 * This extension adds a image preview to the edit page.
 *
 * @package LgLiveLook
-* @version 1.1.0
+* @version 1.1.2
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -99,6 +99,7 @@ class Lg_live_look_ext {
 	{
 		global $IN, $SESS;
 		if(isset($SESS->cache['lg']) === FALSE){ $SESS->cache['lg'] = array(); }
+		if(isset($SESS->cache['nsm']) === FALSE){ $SESS->cache['nsm'] = array(); }
 		$this->settings = $this->_get_settings();
 	}
 
@@ -126,6 +127,7 @@ class Lg_live_look_ext {
 		if(empty($entry_id) === TRUE) $entry_id = $IN->GBL("entry_id");
 
 		// action will always be passed
+		$SESS->cache['lg'][LG_LL_addon_id]['publish_form'] = TRUE;
 		$SESS->cache['lg'][LG_LL_addon_id]['publish_form_action'] = $which;
 		$SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'] = $entry_id;
 
@@ -144,12 +146,24 @@ class Lg_live_look_ext {
 		if($this->debug === TRUE) print("<br />edit_entries_additional_tableheader");
 
 		global $DSP, $LANG, $EXT, $SESS;
+
 		$extra = ($EXT->last_call !== FALSE) ? $EXT->last_call : '';
+
+		$SESS->cache['lg'][LG_LL_addon_id]['show_links'] = FALSE;
+		foreach ($this->settings['weblogs'] as $weblog_id => $weblog_settings)
+		{
+			if($weblog_settings['display_link'] == "y")
+			{
+				$SESS->cache['lg'][LG_LL_addon_id]['show_links'] = TRUE;
+				break;
+			}
+		}
 		if(
 			// enabled?
-			$this->settings['enable'] == 'y' &&
+			$this->settings['enable'] == 'y'
+			&& $SESS->cache['lg'][LG_LL_addon_id]['show_links']
 			// allowed member group?
-			in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups'])
+			&& in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups'])
 		)
 		{
 			$extra .= $DSP->table_qcell('tableHeadingAlt', "Live Look");
@@ -175,8 +189,9 @@ class Lg_live_look_ext {
 		$extra = ($EXT->last_call !== FALSE) ? $EXT->last_call : '';
 
 		if(
-			$this->settings['enable'] == 'y' &&
-			in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups'])
+			$this->settings['enable'] == 'y'
+			&& $SESS->cache['lg'][LG_LL_addon_id]['show_links']
+			&& in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups'])
 		)
 		{
 			if(
@@ -236,6 +251,7 @@ class Lg_live_look_ext {
 		)
 		{
 			$publish_tabs['llp'] = 'Live Look';
+			$SESS->cache['lg'][LG_LL_addon_id]['enable_tab'] = TRUE;
 		}
 
 		return $publish_tabs;
@@ -261,57 +277,45 @@ class Lg_live_look_ext {
 
 		$ret = ($EXT->last_call !== FALSE) ? $EXT->last_call : '';
 
-		if(
-			// enabled?
-			$this->settings['enable'] == 'y' &&
-			// allowed member group?
-			in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups']) &&
-			// show tab for this weblog
-			( isset($this->settings['weblogs'][$weblog_id]) && $this->settings['weblogs'][$weblog_id]['display_tab'] == "y" )
-		)
+		if($SESS->cache['lg'][LG_LL_addon_id]['enable_tab'] === TRUE)
 		{
 			$entry_id = $SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'];
+
 			$ret .= "<!-- Start LG Live Look Tab -->";
-			$ret .= "<div id='blockllp' style='display:none'>";
-			$ret .= $DSP->div('publishTabWrapper');
-			$ret .= $DSP->div('publishBox');
+			$ret .= "<div id='blockllp' class='nsm-tab-block' style='display:none;'>";
+			$ret .= "<div class='nsm-tab-block-content'>";
 
 			// if there is an entry (edit page)
 			if($entry_id != FALSE)
 			{
+				$ret .= "<h5>Live Look <small>&ndash; <a href='".$this->_parse_url($entry_id)."'>";
 				if(($draft_id = $IN->GBL("draft_id")) !== FALSE)
 				{
-					$ret .= "<p style='float:left; margin:6px 0 0 0'><strong>Draft #" . $draft_id . "</strong></p>";
+					$ret .= "Draft #" . $draft_id . "";
 				}
 				elseif(($version_id = $IN->GBL("version_id")) !== FALSE)
 				{
-					$ret .= "<p style='float:left; margin:6px 0 0 0'><strong>Version #" . $version_id . "</strong></p>";
+					$ret .= "Version #" . $version_id . "";
 				}
 				elseif(($preview_id = $IN->GBL("preview_id")) !== FALSE)
 				{
-					$ret .= "<p style='float:left; margin:6px 0 0 0'><strong>Preview #" . $preview_id . "</strong></p>";
+					$ret .= "Preview #" . $preview_id . "";
 				}
-				
-				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' class='enlarge-iframe' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' class='shrink-iframe' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
+				$ret .= "</a></small></h5>";
+				$ret .= "<p style='position:absolute; top:13px; right:9px; margin:0'><a href='#' class='enlarge-iframe' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' class='shrink-iframe' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
 				$ret .= "<div style='border:1px solid #C5CFDA; margin:0 0 9px 0;'><iframe id='llp_frame' src='' style='background:#fff; border:none; padding:0; margin:0; width:100%;'></iframe></div>";
-				$ret .= "<p style='text-align:right; margin-bottom:9px'><a href='#' class='enlarge-iframe' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' class='shrink-iframe' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
+				$ret .= "<p style='text-align:right; margin:0'><a href='#' class='enlarge-iframe' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' class='shrink-iframe' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
 			}
 			else
 			{
-				$ret .= '<div class="publishInnerPad">
-					<table cellspacing="0" cellpadding="0" border="0" style="width: 99%;" class="clusterBox"><tbody>
-										<tr>
-											<td valign="top" class="publishItemWrapper"><br/>
-												<div class="highlight">'.$LANG->line('save_entry_msg').'</div>
-											</td>
-										</tr></tbody></table>
-				</div>';
+				$ret .= "<h5>Live Look</h5>";
+				$ret .= '<p class="highlight">'.$LANG->line('save_entry_msg').'</p>';
 			}
+
 			$ret .= '<script type="text/javascript" charset="utf-8">var lg_live_look_url = "'.$this->_parse_url($entry_id).'";</script>';
-			$SESS->cache['lg'][LG_LL_addon_id]['require_scripts'] = TRUE;
-			$ret .= $DSP->div_c();
-			$ret .= $DSP->div_c();
-			$ret .= $DSP->div_c();
+			$ret .= "</div>";
+			$ret .= "</div>";
+
 			$ret .= "<!-- End LG Live Look Tab -->";
 		}
 		return $ret;
@@ -334,14 +338,10 @@ class Lg_live_look_ext {
 		if($EXT->last_call !== FALSE)
 			$out = $EXT->last_call;
 
-		if(
-			$this->settings['enable'] == 'y'
-			&& in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups'])
-			&& isset($SESS->cache['lg'][LG_LL_addon_id]['require_scripts']) === TRUE
-			&& ($IN->GBL('C', 'GET') == 'publish' || $IN->GBL('C', 'GET') == 'edit')
-		)
+		$css = $js = "";
+
+		if(isset($SESS->cache['lg'][LG_LL_addon_id]['enable_tab']))
 		{
-			$js = "";
 			if(empty($SESS->cache['scripts']['jquery']['cookie']) === TRUE)
 			{
 				$js .= NL."<script type='text/javascript' charset='utf-8' src='". $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/lg_live_look/js/jquery.cookie.min.js'></script>";
@@ -350,25 +350,30 @@ class Lg_live_look_ext {
 
 			$js .= NL."<script type='text/javascript' charset='utf-8' src='". $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/lg_live_look/js/admin_publish.js'></script>";
 
-			if(@$SESS->cache['nsm']['show_live_look_tab'] === TRUE || @$SESS->cache['lg']['show_live_look_tab'] === TRUE)
+			// Integration with other extensions
+			if(isset($SESS->cache['nsm']['show_live_look_tab']) === TRUE)
 			{
-				$js .= NL . '<script type="text/javascript" charset="utf-8">
-	$iframe.attr({"src": lg_live_look_url});
-	showblock("blockllp");
-	stylereset("llp");
-</script>';
+				$js .= NL . '<script type="text/javascript" charset="utf-8">$iframe.attr({"src": lg_live_look_url});showblock("blockllp");stylereset("llp");</script>';
 			}
 
-			if(
-				$this->settings["weblogs"][$IN->GBL("weblog_id")]["disable_preview"] == "y"
-				&& !preg_match("/fieldset.*?Error/mis", $out)
-			)
+			if(isset($SESS->cache['nsm']['css']['global']) === FALSE)
 			{
-				$css = '<style type="text/css" media="screen">fieldset.previewBox{display:none}</style>';
-				$out = str_replace("</head>", $css . "</head>", $out);
+				$SESS->cache['nsm']['css']['global'] = TRUE;
+				$css .= "\n<link rel='stylesheet' type='text/css' media='screen' href='" . $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/newism/css/admin.css' />";
 			}
-			$out = str_replace("</body>", $js . "</body>", $out);
 		}
+
+		if(
+			isset($SESS->cache['lg'][LG_LL_addon_id]['publish_form']) === TRUE
+			&& $this->settings["weblogs"][$IN->GBL("weblog_id")]["disable_preview"] == "y"
+			&& !preg_match("/fieldset.*?Error/mis", $out)
+		)
+		{
+			$css .= '<style type="text/css" media="screen">fieldset.previewBox{display:none}</style>';
+		}
+
+		$out = str_replace("</head>", $css . "</head>", $out);
+		$out = str_replace("</body>", $js . "</body>", $out);
 
 		return $out;
 	}
@@ -521,12 +526,6 @@ class Lg_live_look_ext {
 
 		$DSP->body = '';
 
-		if(isset($settings['show_promos']) === FALSE) {$settings['show_promos'] = 'y';}
-		if($settings['show_promos'] == 'y')
-		{
-			$DSP->body .= "<script src='http://leevigraham.com/promos/ee.php?id=" . rawurlencode(LG_LL_addon_id) ."&v=".$this->version."' type='text/javascript' charset='utf-8'></script>";
-		}
-
 		if(isset($settings['show_donate']) === FALSE) {$settings['show_donate'] = 'y';}
 		if($settings['show_donate'] == 'y')
 		{
@@ -552,7 +551,6 @@ class Lg_live_look_ext {
 								// BUG??
 								array('name' => strtolower(LG_LL_extension_class))
 		);
-	
 
 		// EXTENSION ACCESS
 		$DSP->body .= $DSP->table_open(array('class' => 'tableBorder', 'border' => '0', 'style' => 'margin-top:18px; width:100%'));

@@ -6,7 +6,7 @@
 * /system/language/english/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.1.0
+* @version 1.1.2
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -63,7 +63,7 @@ $L = array(
 								<li style='width:33%; float:left;'>{screen_name}</li>
 							</ul>",
 
-"save_entry_msg" => "This entry must be saved at least once before it can be previewed in LG Live Look.",
+"save_entry_msg" => "A new revision must be created before this entry can be previewed. ",
 "enlarge_iframe" => "Enlarge Preview",
 "shrink_iframe" => "Shrink Preview",
 "preview_of_published" => "Preview of currently published entry:",
