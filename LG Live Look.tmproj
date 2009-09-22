@@ -54,14 +54,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>97</integer>
+				<integer>59</integer>
 				<key>line</key>
 				<integer>283</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>369</integer>
 		</dict>
 		<key>system/extensions/lg_live_look/views/lg_live_look_ext/form_settings.php</key>
 		<dict>
@@ -292,6 +292,6 @@
 		</dict>
 	</dict>
 	<key>windowFrame</key>
-	<string>{{243, -89}, {1504, 878}}</string>
+	<string>{{539, 49}, {1283, 1129}}</string>
 </dict>
 </plist>
