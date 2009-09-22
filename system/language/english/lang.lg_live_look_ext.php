@@ -15,21 +15,8 @@
 
 $L = array(
 
-"lg_image_preview_title" => "LG Live Look",
-
-'access_rights' 	=> 'Extension Access',
-'enable_extension_for_this_site' => 'Enable LG Live Look for this site?',
-
 'which_groups_label'	=> 'Which member groups will see the LG Live Look tab and links?',
 'no_weblogs_msg' 		=> 'There are no weblogs assigned to this site.',
-
-'scripts' 					=> 'Scripts',
-'scripts_info' 				=> 'LG Live Look requires <a href="http://jquery.com">jQuery Core v1.2.6+</a> to work correctly.',
-'jquery_core_path_label'	=> 'jQuery Core 1.2.6 URL',
-
-'check_for_updates_title' 	=> 'Check for updates?',
-'check_for_updates_info' 	=> 'LG Live Look can call home (<a href="http://leevigraham.com/">http://leevigraham.com</a>) and check for recent updates if you allow it. <strong>This feature requires <a href="http://leevigraham.com/cms-customisation/expressionengine/lg-addon-updater/">LG Addon Updater</a> to be installed and activated</strong>.',
-'check_for_updates_label' 	=> 'Would you like this extension to check for updates and display them on your CP homepage?',
 
 'lg_admin_title'			=> 'LG Admin Options',
 'donation'					=> 'This extension was developed by <a href="http://leevigraham.com">Leevi Graham</a>. <br />Support its development by donating.',
@@ -42,8 +29,16 @@ $L = array(
 "live_look_path_label"  	=> "Preview URL",
 "live_look"					=> "Live Look",
 
-"weblog_settings"		=> "Weblog Settings",
-"weblog_settings_info"	=> "<p>Each weblog has it's own unique settings to add a Live Look tab in the publish / edit form, add a Live Look link in the edit table and display the default Publish Form preview. The Live Look tab and link will use the entry preview url.</p>
+"save_entry_msg" => "A new revision must be created before this entry can be previewed. ",
+"enlarge_iframe" => "Enlarge Preview",
+"shrink_iframe" => "Shrink Preview",
+"preview_of_published" => "Preview of currently published entry:",
+
+'enable_extension_title'	=> 'Enable extension',
+'enable_extension_label'	=> 'Enable {addon_name} for this site?',
+
+'weblog_customisation_title' => 'Weblog customisation',
+'weblog_customisation_info' => "<p>Each weblog has it's own unique settings to add a Live Look tab in the publish / edit form, add a Live Look link in the edit table and display the default Publish Form preview. The Live Look tab and link will use the entry preview url.</p>
 							<p style='margin-top:9px'>The preview url setting will have the following variables replaced with entry specific attributes allowing you to create highly customisable urls:</p>
 							<ul style='overflow:auto;'>
 								<li style='width:33%; float:left;'>{url_title}</li>
@@ -63,10 +58,16 @@ $L = array(
 								<li style='width:33%; float:left;'>{screen_name}</li>
 							</ul>",
 
-"save_entry_msg" => "A new revision must be created before this entry can be previewed. ",
-"enlarge_iframe" => "Enlarge Preview",
-"shrink_iframe" => "Shrink Preview",
-"preview_of_published" => "Preview of currently published entry:",
+'check_for_updates_title' 	=> 'Check for updates',
+'check_for_updates_info' 	=> '{addon_name} can call home, check for recent updates and display them on your CP homepage? This feature requires <a href="http://leevigraham.com/cms-customisation/expressionengine/lg-addon-updater/">LG Addon Updater</a> to be installed and activated.',
+'check_for_updates_label' 	=> 'Would you like this extension to check for updates?',
+
+'success_extension_settings_saved'	=> 'Extension settings saved successfully',
+'save_extension_settings'	=> 'Save extension settings',
+
+"custom_field"	=> "custom field",
+"attribute"		=> "attribute",
+
 // END
 ''=>''
 );

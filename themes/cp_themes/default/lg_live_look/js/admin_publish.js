@@ -1,11 +1,13 @@
 (function($) {
 
 	h = $.cookie("lg_live_look_h") || 200;
+	loaded = false;
 	$iframe = $("#llp_frame").attr({"height": h+"px"});
 
 	$(".publishTabWidth a").click(function(){
-		if($(this).text() == "Live Look" || $(this).text() == "Show All"){
+		if(($(this).text() == "Live Look" || $(this).text() == "Show All") && loaded == false){
 			$iframe.attr({"src": lg_live_look_url});
+			loaded = true;
 		}
 	});
 	

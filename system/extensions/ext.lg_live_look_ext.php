@@ -79,6 +79,16 @@ class Lg_live_look_ext {
 	*/
 	var $debug 				= FALSE;
 
+	// Donate button
+	var $paypal 			=  array(
+		"account"				=> "sales@newism.com.au",
+		"donations_accepted"	=> TRUE,
+		"donation_amount"		=> "20.00",
+		"currency_code"			=> "USD",
+		"return_url"			=> "http://leevigraham.com/donate/thanks/",
+		"cancel_url"			=> "http://leevigraham.com/donate/cancel/"
+	);
+
 	/**
 	* PHP4 Constructor
 	*
@@ -235,7 +245,7 @@ class Lg_live_look_ext {
 		if($this->debug === TRUE) print("<br />publish_form_new_tabs");
 
 		global $EXT, $PREFS, $SESS;
-
+		$SESS->cache['lg'][LG_LL_addon_id]['display_tab'] = FALSE;
 		if($EXT->last_call !== FALSE)
 		{
 			$publish_tabs = $EXT->last_call;
@@ -251,7 +261,7 @@ class Lg_live_look_ext {
 		)
 		{
 			$publish_tabs['llp'] = 'Live Look';
-			$SESS->cache['lg'][LG_LL_addon_id]['enable_tab'] = TRUE;
+			$SESS->cache['lg'][LG_LL_addon_id]['display_tab'] = TRUE;
 		}
 
 		return $publish_tabs;
@@ -277,46 +287,12 @@ class Lg_live_look_ext {
 
 		$ret = ($EXT->last_call !== FALSE) ? $EXT->last_call : '';
 
-		if($SESS->cache['lg'][LG_LL_addon_id]['enable_tab'] === TRUE)
+		if($SESS->cache['lg'][LG_LL_addon_id]['display_tab'] === TRUE)
 		{
 			$entry_id = $SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'];
-
-			$ret .= "<!-- Start LG Live Look Tab -->";
-			$ret .= "<div id='blockllp' class='nsm-tab-block' style='display:none;'>";
-			$ret .= "<div class='nsm-tab-block-content'>";
-
-			// if there is an entry (edit page)
-			if($entry_id != FALSE)
-			{
-				$ret .= "<h5>Live Look <small>&ndash; <a href='".$this->_parse_url($entry_id)."'>";
-				if(($draft_id = $IN->GBL("draft_id")) !== FALSE)
-				{
-					$ret .= "Draft #" . $draft_id . "";
-				}
-				elseif(($version_id = $IN->GBL("version_id")) !== FALSE)
-				{
-					$ret .= "Version #" . $version_id . "";
-				}
-				elseif(($preview_id = $IN->GBL("preview_id")) !== FALSE)
-				{
-					$ret .= "Preview #" . $preview_id . "";
-				}
-				$ret .= "</a></small></h5>";
-				$ret .= "<p style='position:absolute; top:13px; right:9px; margin:0'><a href='#' class='enlarge-iframe' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' class='shrink-iframe' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
-				$ret .= "<div style='border:1px solid #C5CFDA; margin:0 0 9px 0;'><iframe id='llp_frame' src='' style='background:#fff; border:none; padding:0; margin:0; width:100%;'></iframe></div>";
-				$ret .= "<p style='text-align:right; margin:0'><a href='#' class='enlarge-iframe' style='outline:none'><img src='".PATH_CP_IMG."expand.gif' border='0' /> ".$LANG->line('enlarge_iframe')."</a>&nbsp;&nbsp;&nbsp;<a href='#' class='shrink-iframe' style='outline:none'><img src='".PATH_CP_IMG."collapse.gif' border='0' /> ".$LANG->line('shrink_iframe')."</a></p>";
-			}
-			else
-			{
-				$ret .= "<h5>Live Look</h5>";
-				$ret .= '<p class="highlight">'.$LANG->line('save_entry_msg').'</p>';
-			}
-
-			$ret .= '<script type="text/javascript" charset="utf-8">var lg_live_look_url = "'.$this->_parse_url($entry_id).'";</script>';
-			$ret .= "</div>";
-			$ret .= "</div>";
-
-			$ret .= "<!-- End LG Live Look Tab -->";
+			$preview_url = $this->_parse_url(urlencode($entry_id));
+			$ret .= '<script type="text/javascript" charset="utf-8">var lg_live_look_url = "'.$preview_url.'";</script>';
+			ob_start(); include(PATH_EXT.'/lg_live_look/views/lg_live_look_ext/tab_live_look.php'); $ret .= ob_get_clean();
 		}
 		return $ret;
 	}
@@ -340,7 +316,7 @@ class Lg_live_look_ext {
 
 		$css = $js = "";
 
-		if(isset($SESS->cache['lg'][LG_LL_addon_id]['enable_tab']))
+		if(isset($SESS->cache['lg'][LG_LL_addon_id]['display_tab']))
 		{
 			if(empty($SESS->cache['scripts']['jquery']['cookie']) === TRUE)
 			{
@@ -349,23 +325,20 @@ class Lg_live_look_ext {
 			}
 
 			$js .= NL."<script type='text/javascript' charset='utf-8' src='". $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/lg_live_look/js/admin_publish.js'></script>";
+			$css .= "\n<link rel='stylesheet' type='text/css' media='screen' href='" . $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/lg_live_look/css/admin.css' />";
 
 			// Integration with other extensions
 			if(isset($SESS->cache['nsm']['show_live_look_tab']) === TRUE)
 			{
 				$js .= NL . '<script type="text/javascript" charset="utf-8">$iframe.attr({"src": lg_live_look_url});showblock("blockllp");stylereset("llp");</script>';
 			}
-
-			if(isset($SESS->cache['nsm']['css']['global']) === FALSE)
-			{
-				$SESS->cache['nsm']['css']['global'] = TRUE;
-				$css .= "\n<link rel='stylesheet' type='text/css' media='screen' href='" . $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/newism/css/admin.css' />";
-			}
 		}
+
+		$weblog_id = $this->get_weblog_id();
 
 		if(
 			isset($SESS->cache['lg'][LG_LL_addon_id]['publish_form']) === TRUE
-			&& $this->settings["weblogs"][$IN->GBL("weblog_id")]["disable_preview"] == "y"
+			&& $this->settings["weblogs"][$weblog_id]["disable_preview"] == "y"
 			&& !preg_match("/fieldset.*?Error/mis", $out)
 		)
 		{
@@ -441,7 +414,6 @@ class Lg_live_look_ext {
 				$ret .= "/".$NSM_PP->settings["preview_trigger"] . "/" . $preview_id . "/";
 			}
 		}
-
 		return $FNS->remove_double_slashes($ret);
 	}
 
@@ -514,33 +486,45 @@ class Lg_live_look_ext {
 		// create a local variable for the site settings
 		$settings = $this->_get_settings();
 
+
+		$DSP->title  = $this->name . " " . $this->version . " | " . $LANG->line('extension_settings');
+
 		$DSP->crumbline = TRUE;
-
-		$DSP->title  = $LANG->line('extension_settings');
 		$DSP->crumb  = $DSP->anchor(BASE.AMP.'C=admin'.AMP.'area=utilities', $LANG->line('utilities')).
-		$DSP->crumb_item($DSP->anchor(BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=extensions_manager', $LANG->line('extensions_manager')));
-
 		$DSP->crumb .= $DSP->crumb_item($LANG->line('lg_image_preview_title') . " {$this->version}");
+		$DSP->crumb_item($DSP->anchor(BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=extensions_manager', $LANG->line('extensions_manager')));
 
 		$DSP->right_crumb($LANG->line('disable_extension'), BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=toggle_extension_confirm'.AMP.'which=disable'.AMP.'name='.$IN->GBL('name'));
 
 		$DSP->body = '';
+		$DSP->body .= "<div class='mor settings-form'>";
 
-		if(isset($settings['show_donate']) === FALSE) {$settings['show_donate'] = 'y';}
-		if($settings['show_donate'] == 'y')
+		// PAYPAL
+		if(isset($this->paypal["donations_accepted"]) === TRUE)
 		{
-			$DSP->body .= "<style type='text/css' media='screen'>
-				#donate{float:right; margin-top:0; padding-left:190px; position:relative; top:-2px}
-				#donate .button{background:transparent url(http://leevigraham.com/themes/site_themes/default/img/btn_paypal-donation.png) no-repeat scroll left bottom; display:block; height:0; overflow:hidden; position:absolute; top:0; left:0; padding-top:27px; text-decoration:none; width:175px}
-				#donate .button:hover{background-position:top right;}
-			</style>";
-			$DSP->body .= "<p id='donate'>
-							" . $LANG->line('donation') ."
-							<a rel='external' href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=sales@newism%2ecom%2eau&amp;item_name=LG%20Expression%20Engine%20Development&amp;amount=10%2e00&amp;no_shipping=1&amp;return=http%3a%2f%2fleevigraham%2ecom%2fdonate%2fthanks&amp;cancel_return=http%3a%2f%2fleevigraham%2ecom%2fdonate%2fno%2dthanks&amp;no_note=1&amp;tax=0&amp;currency_code=USD&amp;lc=US&amp;bn=PP%2dDonationsBF&amp;charset=UTF%2d8' class='button' target='_blank'>Donate</a>
-						</p>";
+			$DSP->body .= "<p class='donate paypal'>
+								<a rel='external'"
+									. "href='https://www.paypal.com/cgi-bin/webscr?"
+										. "cmd=_donations&amp;"
+										. "business=".rawurlencode($this->paypal["account"])."&amp;"
+										. "item_name=".rawurlencode($this->name . " Development: Donation")."&amp;"
+										. "amount=".rawurlencode($this->paypal["donation_amount"])."&amp;"
+										. "no_shipping=1&amp;return=".rawurlencode($this->paypal["return_url"])."&amp;"
+										. "cancel_return=".rawurlencode($this->paypal["cancel_url"])."&amp;"
+										. "no_note=1&amp;"
+										. "tax=0&amp;"
+										. "currency_code=".$this->paypal["currency_code"]."&amp;"
+										. "lc=US&amp;"
+										. "bn=PP%2dDonationsBF&amp;"
+										. "charset=UTF%2d8'"
+									."class='button'
+									target='_blank'>
+									Support this addon by donating via PayPal.
+								</a>
+							</p>";
 		}
 
-		$DSP->body .= $DSP->heading($LANG->line('lg_image_preview_title') . " <small>{$this->version}</small>");
+		$DSP->body .= $DSP->heading($this->name . " <small>{$this->version}</small>");
 		
 		$DSP->body .= $DSP->form_open(
 								array(
@@ -552,212 +536,15 @@ class Lg_live_look_ext {
 								array('name' => strtolower(LG_LL_extension_class))
 		);
 
-		// EXTENSION ACCESS
-		$DSP->body .= $DSP->table_open(array('class' => 'tableBorder', 'border' => '0', 'style' => 'margin-top:18px; width:100%'));
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('tableHeading', '', '2')
-			. $LANG->line("access_rights")
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('tableCellOne', '30%')
-			. $DSP->qdiv('defaultBold', $LANG->line('enable_extension_for_this_site'))
-			. $DSP->td_c();
-
-		$DSP->body .= $DSP->td('tableCellOne')
-			. "<select name='enable'>"
-						. $DSP->input_select_option('y', "Yes", (($settings['enable'] == 'y') ? 'y' : '' ))
-						. $DSP->input_select_option('n', "No", (($settings['enable'] == 'n') ? 'y' : '' ))
-						. $DSP->input_select_footer()
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-
 		// query the db for the member groups
-		$query = $DB->query("SELECT group_id, group_title FROM exp_member_groups WHERE site_id = " . $PREFS->core_ini['site_id'] . " ORDER BY group_id");
+		$member_group_query = $DB->query("SELECT group_id, group_title FROM exp_member_groups WHERE site_id = " . $PREFS->ini('site_id') . " ORDER BY group_id");
+		$weblog_query = $DB->query("SELECT * FROM exp_weblogs WHERE site_id = " . $PREFS->ini('site_id'));
+		$lgau_query = $DB->query("SELECT class FROM exp_extensions WHERE class = 'Lg_addon_updater_ext' AND enabled = 'y' LIMIT 1");
+		$lgau_enabled = $lgau_query->num_rows ? TRUE : FALSE;
+		ob_start(); include(PATH_EXT.'/lg_live_look/views/lg_live_look_ext/form_settings.php'); $DSP->body .= ob_get_clean();
 
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('tableCellTwo', '30%')
-			. $DSP->qdiv('defaultBold', $LANG->line('which_groups_label'))
-			. $DSP->td_c();
-
-		$DSP->body .= $DSP->td('tableCellTwo');
-
-		foreach($query->result as $row)
-		{
-			$DSP->body .=  $DSP->qdiv('', "<div><label>"
-											. $DSP->input_checkbox(
-												'allowed_member_groups[]',
-												$row['group_id'],
-												((in_array($row['group_id'], $settings['allowed_member_groups'])) ? 'y' : 'n')
-											) . $row['group_title'] . "</label></div>"
-										);
-		}
-
-		$DSP->body .= $DSP->td_c()
-			. $DSP->tr_c()
-			. $DSP->table_c();
-
-		// Weblog Settings
-		$DSP->body .= $DSP->table_open(array('class' => 'tableBorder', 'border' => '0', 'style' => 'margin-top:18px; width:100%'));
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('tableHeading', '', '3')
-			. $LANG->line("weblog_settings")
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('', '', '3')
-			. "<div class='box' style='border-width:0 0 1px 0; margin:0; padding:10px 5px'>" . $LANG->line('weblog_settings_info') . "</div>"
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-		$weblogs = $DB->query("SELECT * FROM exp_weblogs WHERE site_id = " . $PREFS->ini('site_id'));
-
-		if ($weblogs->num_rows > 0)
-		{
-			$i = 0;
-			foreach($weblogs->result as $row)
-			{
-
-				$class = ($i % 2) ? 'tableCellTwo':'tableCellOne';
-				$weblog_settings = $this->settings['weblogs'][$row['weblog_id']];
-
-				$DSP->body .= $DSP->tr()
-					. "<td class='{$class}' rowspan='4' width='150px'>"
-					. $DSP->qdiv('defaultBold', $row['blog_title']);
-					
-				$DSP->body .= $DSP->td($class)
-					. "<small>".$LANG->line('display_tab_label').":</small>"
-					. $DSP->td_c()
-					. $DSP->td($class)
-					. "<select name='weblogs[{$row['weblog_id']}][display_tab]'>"
-						. $DSP->input_select_option('y', "Yes", (($weblog_settings['display_tab'] == 'y') ? 'y' : '' ))
-						. $DSP->input_select_option('n', "No", (($weblog_settings['display_tab'] == 'n') ? 'y' : '' ))
-						. $DSP->input_select_footer()
-					. $DSP->td_c()
-					. $DSP->tr_c();
-
-				$DSP->body .= $DSP->td($class)
-					. "<small>".$LANG->line('display_link_label').":</small>"
-					. $DSP->td_c()
-					. $DSP->td($class)
-					. "<select name='weblogs[{$row['weblog_id']}][display_link]'>"
-						. $DSP->input_select_option('y', "Yes", (($weblog_settings['display_link'] == 'y') ? 'y' : '' ))
-						. $DSP->input_select_option('n', "No", (($weblog_settings['display_link'] == 'n') ? 'y' : '' ))
-						. $DSP->input_select_footer()
-					. $DSP->td_c()
-					. $DSP->tr_c();
-
-				$DSP->body .= $DSP->tr()
-							. $DSP->td($class, '250px')
-							. "<small>".$LANG->line('disable_preview_label').":</small>"
-							. $DSP->td_c()
-							. $DSP->td($class)
-							. "<select name='weblogs[".$row['weblog_id']."][disable_preview]'>"
-								. $DSP->input_select_option('y', "Yes", ((@$weblog_settings['disable_preview'] == 'y') ? 'y' : '' ))
-								. $DSP->input_select_option('n', "No", ((@$weblog_settings['disable_preview'] == 'n') ? 'y' : '' ))
-								. $DSP->input_select_footer()
-							. $DSP->td_c()
-							. $DSP->tr_c();
-
-				$DSP->body .= $DSP->tr()
-							. $DSP->td($class, '')
-							. "<small>".$LANG->line('live_look_path_label').":</small>"
-							. $DSP->td_c()
-							. $DSP->td($class)
-							. $DSP->input_text("weblogs[{$row['weblog_id']}][live_look_path]", $weblog_settings['live_look_path'], '', '')
-							. $DSP->td_c()
-							. $DSP->tr_c();
-				$i++;
-			}
-		}
-		else
-		{
-			$DSP->body .= "<tr><td colspan='2' class='tableCellOne'><p class='highlight'>" . $LANG->line('no_weblogs_msg') . "</p></td></tr>";
-		}
-
-		$DSP->body .= $DSP->table_c();
-
-		// UPDATES
-		$DSP->body .= $DSP->table_open(array('class' => 'tableBorder', 'border' => '0', 'style' => 'margin-top:18px; width:100%'));
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('tableHeading', '', '2')
-			. $LANG->line("check_for_updates_title")
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('', '', '2')
-			. "<div class='box' style='border-width:0 0 1px 0; margin:0; padding:10px 5px'><p>" . $LANG->line('check_for_updates_info') . "</p></div>"
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-		$DSP->body .= $DSP->tr()
-			. $DSP->td('tableCellOne', '30%')
-			. $DSP->qdiv('defaultBold', $LANG->line("check_for_updates_label"))
-			. $DSP->td_c();
-
-		$DSP->body .= $DSP->td('tableCellOne')
-			. "<select name='check_for_updates'>"
-				. $DSP->input_select_option('y', "Yes", (($settings['check_for_updates'] == 'y') ? 'y' : '' ))
-				. $DSP->input_select_option('n', "No", (($settings['check_for_updates'] == 'n') ? 'y' : '' ))
-				. $DSP->input_select_footer()
-			. $DSP->td_c()
-			. $DSP->tr_c();
-
-			$DSP->body .= $DSP->table_c();
-
-		if($IN->GBL('lg_admin') != 'y')
-		{
-			$DSP->body .= $DSP->table_c();
-			$DSP->body .= "<input type='hidden' value='".$settings['show_donate']."' name='show_donate' />";
-			$DSP->body .= "<input type='hidden' value='".$settings['show_promos']."' name='show_promos' />";
-		}
-		else
-		{
-			$DSP->body .= $DSP->table_open(array('class' => 'tableBorder', 'border' => '0', 'style' => 'margin-top:18px; width:100%'));
-			$DSP->body .= $DSP->tr()
-				. $DSP->td('tableHeading', '', '2')
-				. $LANG->line("lg_admin_title")
-				. $DSP->td_c()
-				. $DSP->tr_c();
-
-			$DSP->body .= $DSP->tr()
-				. $DSP->td('tableCellOne', '30%')
-				. $DSP->qdiv('defaultBold', $LANG->line("show_donate_label"))
-				. $DSP->td_c();
-
-			$DSP->body .= $DSP->td('tableCellOne')
-				. "<select name='show_donate'>"
-						. $DSP->input_select_option('y', "Yes", (($settings['show_donate'] == 'y') ? 'y' : '' ))
-						. $DSP->input_select_option('n', "No", (($settings['show_donate'] == 'n') ? 'y' : '' ))
-						. $DSP->input_select_footer()
-				. $DSP->td_c()
-				. $DSP->tr_c();
-
-			$DSP->body .= $DSP->tr()
-				. $DSP->td('tableCellTwo', '30%')
-				. $DSP->qdiv('defaultBold', $LANG->line("show_promos_label"))
-				. $DSP->td_c();
-
-			$DSP->body .= $DSP->td('tableCellTwo')
-				. "<select name='show_promos'>"
-						. $DSP->input_select_option('y', "Yes", (($settings['show_promos'] == 'y') ? 'y' : '' ))
-						. $DSP->input_select_option('n', "No", (($settings['show_promos'] == 'n') ? 'y' : '' ))
-						. $DSP->input_select_footer()
-				. $DSP->td_c()
-				. $DSP->tr_c();
-
-			$DSP->body .= $DSP->table_c();
-		}
-
-		$DSP->body .= $DSP->qdiv('itemWrapperTop', $DSP->input_submit())
-					. $DSP->form_c();
+		$DSP->body .= $DSP->form_c();
+		$DSP->body .= "</div>";
 	}
 
 	/**
@@ -1048,5 +835,104 @@ class Lg_live_look_ext {
 
 		return $addons;
 	}
+
+	private function get_weblog_id()
+	{
+		global $IN, $DB, $FNS, $SESS;
+		
+		$weblog_id = FALSE;
+
+		if($IN->GBL('weblog_id') !== FALSE) return $IN->GBL('weblog_id');
+
+		// if it's an edit, we just need the entry id and can figure out the rest
+		if ($IN->GBL('entry_id', 'GET') !== FALSE AND is_numeric($IN->GBL('entry_id', 'GET')) AND $weblog_id == '')
+		{
+			$query = $DB->query("SELECT weblog_id FROM exp_weblog_titles WHERE entry_id = '".$DB->escape_str($IN->GBL('entry_id', 'GET'))."'");
+			if ($query->num_rows == 1)
+			{
+				$weblog_id = $query->row['weblog_id'];
+			}
+		}
+
+		if ($weblog_id == '' AND ! ($weblog_id = $IN->GBL('weblog_id', 'GP')))
+		{
+				// Does the user have their own blog?
+
+				$assigned_weblogs = $FNS->fetch_assigned_weblogs();
+				if ($SESS->userdata['weblog_id'] != 0)
+				{
+					$weblog_id = $SESS->userdata['weblog_id'];
+				}
+				elseif (sizeof($assigned_weblogs) == 1)
+				{
+					$weblog_id = $assigned_weblogs['0'];
+				}
+				else
+				{
+					$query = $DB->query("SELECT weblog_id from exp_weblogs WHERE is_user_blog = 'n'");
+					if ($query->num_rows == 1)
+					{
+						$weblog_id = $query->row['weblog_id'];
+					}
+					else
+					{
+						return false;
+					}
+			}
+		}
+
+		if ( ! is_numeric($weblog_id))
+		return FALSE;
+		
+		return $weblog_id;
+	}
+
+	/**
+	 * Creates a select box
+	 *
+	 * @access public
+	 * @param mixed $selected The selected value
+	 * @param array $options The select box options in a multi-dimensional array. Array keys are used as the option value, array values are used as the option label
+	 * @param string $input_name The name of the input eg: Lg_polls_ext[log_ip]
+	 * @param string $input_id A unique ID for this select. If no id is given the id will be created from the $input_name
+	 * @param boolean $use_lanng Pass the option label through the $LANG->line() method or display in a raw state
+	 * @param array $attributes Any other attributes for the select box such as class, multiple, size etc
+	 * @return string Select box html
+	 */
+	function select_box($selected, $options, $input_name, $input_id = FALSE, $use_lang = TRUE, $key_is_value = TRUE, $attributes = array())
+	{
+		global $LANG;
+
+		$input_id = ($input_id === FALSE) ? str_replace(array("[", "]"), array("_", ""), $input_name) : $input_id;
+
+		$attributes = array_merge(array(
+			"name" => $input_name,
+			"id" => strtolower($input_id)
+		), $attributes);
+
+		$attributes_str = "";
+		foreach ($attributes as $key => $value)
+		{
+			$attributes_str .= " {$key}='{$value}' ";
+		}
+
+		$ret = "<select{$attributes_str}>";
+
+		foreach($options as $option_value => $option_label)
+		{
+			if (!is_int($option_value))
+				$option_value = $option_value;
+			else
+				$option_value = ($key_is_value === TRUE) ? $option_value : $option_label;
+
+			$option_label = ($use_lang === TRUE) ? $LANG->line($option_label) : $option_label;
+			$checked = ($selected == $option_value) ? " selected='selected' " : "";
+			$ret .= "<option value='{$option_value}'{$checked}>{$option_label}</option>";
+		}
+
+		$ret .= "</select>";
+		return $ret;
+	}
+
 }
 ?>
