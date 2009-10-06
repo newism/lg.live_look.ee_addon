@@ -6,7 +6,7 @@
 * /system/extensions/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.1.2
+* @version 1.2.2
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -17,7 +17,7 @@ if ( ! defined('EXT')) exit('Invalid file request');
 
 if ( ! defined('LG_LL_version'))
 {
-	define("LG_LL_version",			"1.1.2");
+	define("LG_LL_version",			"1.2.0");
 	define("LG_LL_docs_url",		"http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/");
 	define("LG_LL_addon_id",		"LG Live Look");
 	define("LG_LL_extension_class",	"Lg_live_look_ext");
@@ -28,7 +28,7 @@ if ( ! defined('LG_LL_version'))
 * This extension adds a image preview to the edit page.
 *
 * @package LgLiveLook
-* @version 1.1.2
+* @version 1.2.2
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
