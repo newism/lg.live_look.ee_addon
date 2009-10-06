@@ -292,7 +292,7 @@ class Lg_live_look_ext {
 			$entry_id = $SESS->cache['lg'][LG_LL_addon_id]['publish_form_entry_id'];
 			$preview_url = $this->_parse_url(urlencode($entry_id));
 			$ret .= '<script type="text/javascript" charset="utf-8">var lg_live_look_url = "'.$preview_url.'";</script>';
-			ob_start(); include(PATH_EXT.'/lg_live_look/views/lg_live_look_ext/tab_live_look.php'); $ret .= ob_get_clean();
+			ob_start(); include(PATH_LIB.'lg_live_look/views/lg_live_look_ext/tab_live_look.php'); $ret .= ob_get_clean();
 		}
 		return $ret;
 	}
