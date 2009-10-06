@@ -491,8 +491,8 @@ class Lg_live_look_ext {
 
 		$DSP->crumbline = TRUE;
 		$DSP->crumb  = $DSP->anchor(BASE.AMP.'C=admin'.AMP.'area=utilities', $LANG->line('utilities')).
-		$DSP->crumb .= $DSP->crumb_item($LANG->line('lg_image_preview_title') . " {$this->version}");
-		$DSP->crumb_item($DSP->anchor(BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=extensions_manager', $LANG->line('extensions_manager')));
+			$DSP->crumb_item($DSP->anchor(BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=extensions_manager', $LANG->line('extensions_manager')));
+		$DSP->crumb .= $DSP->crumb_item($this->name . " " .$this->version);
 
 		$DSP->right_crumb($LANG->line('disable_extension'), BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=toggle_extension_confirm'.AMP.'which=disable'.AMP.'name='.$IN->GBL('name'));
 
@@ -541,7 +541,7 @@ class Lg_live_look_ext {
 		$weblog_query = $DB->query("SELECT * FROM exp_weblogs WHERE site_id = " . $PREFS->ini('site_id'));
 		$lgau_query = $DB->query("SELECT class FROM exp_extensions WHERE class = 'Lg_addon_updater_ext' AND enabled = 'y' LIMIT 1");
 		$lgau_enabled = $lgau_query->num_rows ? TRUE : FALSE;
-		ob_start(); include(PATH_EXT.'/lg_live_look/views/lg_live_look_ext/form_settings.php'); $DSP->body .= ob_get_clean();
+		ob_start(); include(PATH_LIB.'lg_live_look/views/lg_live_look_ext/form_settings.php'); $DSP->body .= ob_get_clean();
 
 		$DSP->body .= $DSP->form_c();
 		$DSP->body .= "</div>";

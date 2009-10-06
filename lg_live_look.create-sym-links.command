@@ -4,17 +4,36 @@
 
 dirname=`dirname "$0"`
 
-echo ""
-echo "Creating symlinks for LG Live Look"
-echo "----------------------------------"
-echo ""
-echo "Enter the path to your ExpressionEngine Install without a trailing slash [ENTER]:"
+echo "
+You are about to create symlinks for LG Live Look
+-------------------------------------------------
+
+The symlinks use absolute paths so they are for development purposes only.
+
+The following directories must be writable:
+
+system/extensions
+system/modules
+system/language
+system/lib
+themes/cp_global_images
+themes/cp_themes/default
+themes/site_themes
+
+Enter the full path to your ExpressionEngine install *without a trailing slash* [ENTER]:"
 read ee_path
-echo "Enter your system folder name [ENTER]:"
+echo "
+Enter your ee system folder name [ENTER]:"
 read ee_system_folder
 
+# extensions
 ln -s "$dirname"/system/extensions/ext.lg_live_look_ext.php "$ee_path"/"$ee_system_folder"/extensions/ext.lg_live_look_ext.php
-ln -s "$dirname"/system/extensions/lg_live_look "$ee_path"/"$ee_system_folder"/extensions
 
+# lib
+ln -s "$dirname"/system/lib/lg_live_look "$ee_path"/"$ee_system_folder"/lib
+
+# language
 ln -s "$dirname"/system/language/english/lang.lg_live_look_ext.php "$ee_path"/"$ee_system_folder"/language/english/lang.lg_live_look_ext.php
+
+# themes
 ln -s "$dirname"/themes/cp_themes/default/lg_live_look "$ee_path"/themes/cp_themes/default/lg_live_look
