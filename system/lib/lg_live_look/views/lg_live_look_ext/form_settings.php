@@ -1,25 +1,21 @@
 <div class="tg">
-	<h2><? print str_replace("{addon_name}", $this->name, $LANG->line("enable_extension_title")); ?></h2>
+	<h2><?php print str_replace("{addon_name}", $this->name, $LANG->line("enable_extension_title")); ?></h2>
 	<table>
 		<tbody>
 			<tr class="even">
 				<th>
-					<? print str_replace("{addon_name}",  $this->name, $LANG->line("enable_extension_label")); ?>
+					<?php echo str_replace("{addon_name}",  $this->name, $LANG->line("enable_extension_label")); ?>
 				</th>
 				<td>
-					<select name="enable">
-						<option value="y"<?= ($settings["enable"] == TRUE) ? 'selected="selected"' : ''; ?>>
-							<?= $LANG->line("yes") ?>
-						</option>
-						<option value="n"<?= ($settings["enable"] == FALSE) ? 'selected="selected"' : ''; ?>>
-							<?= $LANG->line("no") ?>
-						</option>
-					</select>
+					<?php print $this->select_box(
+						$settings["enabled"],
+						array("1" => "yes", "0" => "no"),
+						"enabled"
+					); ?>
 				</td>
-			</tr>
-			<tr class="odd">
+			</tr>			<tr class="odd">
 				<th>
-					<? print $LANG->line('which_groups_label'); ?>
+					<?php print $LANG->line('which_groups_label'); ?>
 				</th>
 				<td>
 					<?php
@@ -31,7 +27,7 @@
 								<?php print $checked ?>
 								type="checkbox"
 								name="allowed_member_groups[]"
-								value="<? print $member_group['group_id'] ?>"
+								value="<?php print $member_group['group_id'] ?>"
 							/>
 							<?php print $member_group['group_title'] ?>
 						</label>
@@ -57,7 +53,7 @@
 				<td>
 					<?php print $this->select_box(
 						$weblog_settings['display_tab'],
-						array("y" => "yes", "n" => "no"),
+						array(1 => "yes", 0 => "no"),
 						"weblogs[{$row['weblog_id']}][display_tab]");
 					?>
 				</td>
@@ -67,7 +63,7 @@
 				<td>
 					<?php print $this->select_box(
 						$weblog_settings['display_link'],
-						array("y" => "yes", "n" => "no"),
+						array(1 => "yes", 0 => "no"),
 						"weblogs[{$row['weblog_id']}][display_link]");
 					?>
 				</td>
@@ -77,7 +73,7 @@
 				<td>
 					<?php print $this->select_box(
 						$weblog_settings['disable_preview'],
-						array("y" => "yes", "n" => "no"),
+						array(1 => "yes", 0 => "no"),
 						"weblogs[{$row['weblog_id']}][disable_preview]");
 					?>
 				</td>
@@ -115,7 +111,7 @@
 						&nbsp;
 						<span class='highlight'>LG Addon Updater is not installed and activated.</span>
 						<input type="hidden" name="check_for_updates" value="0" />
-					<? endif; ?>
+					<?php endif; ?>
 				</td>
 			</tr>
 		</tbody>

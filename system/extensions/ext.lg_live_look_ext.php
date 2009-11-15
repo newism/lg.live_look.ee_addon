@@ -6,7 +6,7 @@
 * /system/extensions/ folder in your ExpressionEngine installation.
 *
 * @package LgLiveLook
-* @version 1.2.2
+* @version 1.2.0
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -28,7 +28,7 @@ if ( ! defined('LG_LL_version'))
 * This extension adds a image preview to the edit page.
 *
 * @package LgLiveLook
-* @version 1.2.2
+* @version 1.2.0
 * @author Leevi Graham <http://leevigraham.com>
 * @see http://leevigraham.com/cms-customisation/expressionengine/addon/lg-live-look/
 * @copyright Copyright (c) 2007-2009 Leevi Graham
@@ -109,7 +109,7 @@ class Lg_live_look_ext {
 	{
 		global $IN, $SESS;
 		if(isset($SESS->cache['lg']) === FALSE){ $SESS->cache['lg'] = array(); }
-		if(isset($SESS->cache['nsm']) === FALSE){ $SESS->cache['nsm'] = array(); }
+		if(isset($SESS->cache['Morphine']) === FALSE) $SESS->cache['Morphine'] = array();
 		$this->settings = $this->_get_settings();
 	}
 
@@ -162,7 +162,7 @@ class Lg_live_look_ext {
 		$SESS->cache['lg'][LG_LL_addon_id]['show_links'] = FALSE;
 		foreach ($this->settings['weblogs'] as $weblog_id => $weblog_settings)
 		{
-			if($weblog_settings['display_link'] == "y")
+			if($weblog_settings['display_link'] == TRUE)
 			{
 				$SESS->cache['lg'][LG_LL_addon_id]['show_links'] = TRUE;
 				break;
@@ -170,7 +170,7 @@ class Lg_live_look_ext {
 		}
 		if(
 			// enabled?
-			$this->settings['enable'] == 'y'
+			$this->settings['enabled'] == TRUE
 			&& $SESS->cache['lg'][LG_LL_addon_id]['show_links']
 			// allowed member group?
 			&& in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups'])
@@ -199,14 +199,14 @@ class Lg_live_look_ext {
 		$extra = ($EXT->last_call !== FALSE) ? $EXT->last_call : '';
 
 		if(
-			$this->settings['enable'] == 'y'
+			$this->settings['enabled'] == TRUE
 			&& $SESS->cache['lg'][LG_LL_addon_id]['show_links']
 			&& in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups'])
 		)
 		{
 			if(
 				isset($this->settings['weblogs'][$row['weblog_id']]) &&
-				$this->settings['weblogs'][$row['weblog_id']]['display_link'] == "y" &&
+				$this->settings['weblogs'][$row['weblog_id']]['display_link'] == TRUE &&
 				empty($this->settings['weblogs'][$row['weblog_id']]['live_look_path']) === FALSE
 			)
 			{
@@ -250,14 +250,13 @@ class Lg_live_look_ext {
 		{
 			$publish_tabs = $EXT->last_call;
 		}
-
 		if(
 			// enabled?
-			$this->settings['enable'] == 'y' &&
+			$this->settings['enabled'] == TRUE &&
 			// allowed member group?
 			in_array($SESS->userdata['group_id'], $this->settings['allowed_member_groups']) &&
 			// show tab for this weblog
-			( isset($this->settings['weblogs'][$weblog_id]) && $this->settings['weblogs'][$weblog_id]['display_tab'] == "y" )
+			( isset($this->settings['weblogs'][$weblog_id]) && $this->settings['weblogs'][$weblog_id]['display_tab'] == TRUE )
 		)
 		{
 			$publish_tabs['llp'] = 'Live Look';
@@ -338,11 +337,18 @@ class Lg_live_look_ext {
 
 		if(
 			isset($SESS->cache['lg'][LG_LL_addon_id]['publish_form']) === TRUE
-			&& $this->settings["weblogs"][$weblog_id]["disable_preview"] == "y"
+			&& $this->settings["weblogs"][$weblog_id]["disable_preview"] == TRUE
 			&& !preg_match("/fieldset.*?Error/mis", $out)
 		)
 		{
 			$css .= '<style type="text/css" media="screen">fieldset.previewBox{display:none}</style>';
+		}
+
+
+		if(isset($SESS->cache['Morphine']['cp_styles_included']) === FALSE)
+		{
+			$css .= "\n<link rel='stylesheet' type='text/css' media='screen' href='" . $PREFS->ini('theme_folder_url', 1) . "cp_themes/".$PREFS->ini('cp_theme')."/Morphine/css/MOR_screen.css' />";
+			$SESS->cache['Morphine']['cp_styles_included'] = TRUE;
 		}
 
 		$out = str_replace("</head>", $css . "</head>", $out);
@@ -486,13 +492,11 @@ class Lg_live_look_ext {
 		// create a local variable for the site settings
 		$settings = $this->_get_settings();
 
-
-		$DSP->title  = $this->name . " " . $this->version . " | " . $LANG->line('extension_settings');
-
+		$DSP->title = $this->name . " " . $this->version . " | " . $LANG->line('extension_settings');
 		$DSP->crumbline = TRUE;
-		$DSP->crumb  = $DSP->anchor(BASE.AMP.'C=admin'.AMP.'area=utilities', $LANG->line('utilities')).
-			$DSP->crumb_item($DSP->anchor(BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=extensions_manager', $LANG->line('extensions_manager')));
-		$DSP->crumb .= $DSP->crumb_item($this->name . " " .$this->version);
+		$DSP->crumb  = $DSP->anchor(BASE.AMP.'C=admin'.AMP.'area=utilities', $LANG->line('utilities'));
+		$DSP->crumb .= $DSP->crumb_item($DSP->anchor(BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=extensions_manager', $LANG->line('extensions_manager')));
+		$DSP->crumb .= $DSP->crumb_item($this->name . " " . $this->version);
 
 		$DSP->right_crumb($LANG->line('disable_extension'), BASE.AMP.'C=admin'.AMP.'M=utilities'.AMP.'P=toggle_extension_confirm'.AMP.'which=disable'.AMP.'name='.$IN->GBL('name'));
 
@@ -592,12 +596,10 @@ class Lg_live_look_ext {
 		global $DB, $PREFS;
 
 		$default_settings = array(
-								'enable' 					=> 'y',
-								'show_donate'				=> 'y',
-								'show_promos'				=> 'y',
+								'enabled' 					=> TRUE,
 								'allowed_member_groups'		=> array(1),
 								'weblogs'					=> array(),
-								'check_for_updates'			=> 'y'
+								'check_for_updates'			=> TRUE
 							);
 
 		// get all the sites
@@ -612,10 +614,10 @@ class Lg_live_look_ext {
 				// duplicate the default settings for this site
 				// that way nothing will break unexpectedly
 				$default_settings['weblogs'][$row['weblog_id']] = array(
-					'display_link' 		=> 'n',
-					'display_tab' 		=> 'n',
+					'display_link' 		=> FALSE,
+					'display_tab' 		=> FALSE,
 					'live_look_path' 	=> '',
-					'disable_preview' 	=> 'n'
+					'disable_preview' 	=> FALSE
 				);
 			}
 		}
@@ -662,10 +664,10 @@ class Lg_live_look_ext {
 				// duplicate the default settings for this site
 				// that way nothing will break unexpectedly
 				$settings[$row['site_id']]['weblogs'][$row['weblog_id']] = array(
-					'display_link' 		=> 'n',
-					'display_tab'		=> 'n',
+					'display_link' 		=> FALSE,
+					'display_tab'		=> FALSE,
 					'live_look_path' 	=> $FNS->remove_double_slashes($row["comment_url"]."/{entry_id}/"),
-					'disable_preview' 	=> 'n'
+					'disable_preview' 	=> FALSE
 				);
 			}
 		}
@@ -752,7 +754,7 @@ class Lg_live_look_ext {
 			{
 				foreach ($settings['weblogs'] as $weblog_id => $weblog_settings)
 				{
-					$this->settings[$site_id]['weblogs'][$weblog_id]["disable_preview"] = "n";
+					$this->settings[$site_id]['weblogs'][$weblog_id]["disable_preview"] = FALSE;
 				}
 			}
 
@@ -802,7 +804,7 @@ class Lg_live_look_ext {
 			<addon id='LG Addon Updater' version='2.0.0' last_updated="1218852797" docs_url="http://leevigraham.com/" />
 		</versions>
 		*/
-		if($this->settings['check_for_updates'] == 'y')
+		if($this->settings['check_for_updates'] == TRUE)
 		{
 			$sources[] = 'http://leevigraham.com/version-check/versions.xml';
 		}
@@ -828,7 +830,7 @@ class Lg_live_look_ext {
 		// add a new addon
 		// the key must match the id attribute in the source xml
 		// the value must be the addons current version
-		if($this->settings['check_for_updates'] == 'y')
+		if($this->settings['check_for_updates'] == TRUE)
 		{
 			$addons[LG_LL_addon_id] = $this->version;
 		}
