@@ -338,7 +338,7 @@ class Lg_live_look_ext {
 		if(
 			isset($SESS->cache['lg'][LG_LL_addon_id]['publish_form']) === TRUE
 			&& $this->settings["weblogs"][$weblog_id]["disable_preview"] == TRUE
-			&& !preg_match("/fieldset.*?Error/mis", $out)
+			&& !preg_match("/fieldset.*?Error.*?<\/legend>/mis", $out)
 		)
 		{
 			$css .= '<style type="text/css" media="screen">fieldset.previewBox{display:none}</style>';
