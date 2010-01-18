@@ -20,10 +20,12 @@ themes/cp_global_images
 themes/cp_themes/default
 themes/site_themes
 
-Enter the full path to your ExpressionEngine install *without a trailing slash* [ENTER]:"
+Enter the full path to your ExpressionEngine install *without a trailing slash* [ENTER]:
+"
 read ee_path
 echo "
-Enter your ee system folder name [ENTER]:"
+Enter your ee system folder name [ENTER]:
+"
 read ee_system_folder
 
 # extensions
