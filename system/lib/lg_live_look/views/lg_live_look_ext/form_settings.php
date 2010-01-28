@@ -1,5 +1,5 @@
 <div class="tg">
-	<h2><?php print str_replace("{addon_name}", $this->name, $LANG->line("enable_extension_title")); ?></h2>
+	<h2>Extension access</h2>
 	<table>
 		<tbody>
 			<tr class="even">
@@ -13,7 +13,8 @@
 						"enabled"
 					); ?>
 				</td>
-			</tr>			<tr class="odd">
+			</tr>
+			<tr class="odd">
 				<th>
 					<?php print $LANG->line('which_groups_label'); ?>
 				</th>
@@ -45,7 +46,7 @@
 			<?php 
 				foreach($weblog_query->result as $row) :
 					$class = ($i % 2) ? 'even':'odd';
-					$weblog_settings = $this->settings['weblogs'][$row['weblog_id']];
+					$weblog_settings = (isset($this->settings['weblogs'][$row['weblog_id']]) == TRUE) ? $this->settings['weblogs'][$row['weblog_id']] : $this->default_weblog_settings;
 			 ?>
 			<tr class='<?php print $class; ?>'>
 				<th rowspan='4' width='150px'><?php print $row['blog_title']; ?></th>

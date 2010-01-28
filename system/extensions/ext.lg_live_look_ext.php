@@ -88,6 +88,13 @@ class Lg_live_look_ext {
 		"return_url"			=> "http://leevigraham.com/donate/thanks/",
 		"cancel_url"			=> "http://leevigraham.com/donate/cancel/"
 	);
+	
+	var $default_weblog_settings = array(
+		'display_link' 		=> FALSE,
+		'display_tab' 		=> FALSE,
+		'live_look_path' 	=> '',
+		'disable_preview' 	=> FALSE
+	);
 
 	/**
 	* PHP4 Constructor
@@ -343,7 +350,6 @@ class Lg_live_look_ext {
 		{
 			$css .= '<style type="text/css" media="screen">fieldset.previewBox{display:none}</style>';
 		}
-
 
 		if(isset($SESS->cache['Morphine']['cp_styles_included']) === FALSE)
 		{
@@ -613,12 +619,7 @@ class Lg_live_look_ext {
 			{
 				// duplicate the default settings for this site
 				// that way nothing will break unexpectedly
-				$default_settings['weblogs'][$row['weblog_id']] = array(
-					'display_link' 		=> FALSE,
-					'display_tab' 		=> FALSE,
-					'live_look_path' 	=> '',
-					'disable_preview' 	=> FALSE
-				);
+				$default_settings['weblogs'][$row['weblog_id']] = $this->default_weblog_settings;
 			}
 		}
 
