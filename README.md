@@ -34,11 +34,13 @@ It's also:
 * **Multi-Site Manager compatible** - Independent extension settings for each site
 * **LG Addon Updater compatible** - Stay up-to-date with the latest versions of LG Live Look
 
-Screenshots (coming soon)
+Screenshots
 -------------------------
 
+![Publish form entry preview](http://s3.amazonaws.com/ember/mnMurYyE3farLFiffQvkGk8dGxvLvIkq_l.jpg)  
 Publish form entry preview
-Edit table links
+
+![Extension settings](http://s3.amazonaws.com/ember/A0o2CWaZmVqpHuBSU3M4W6U7fECzwLl0_s.jpg)  
 Extension settings
 
 Requirements
