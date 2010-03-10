@@ -37,10 +37,10 @@ It's also:
 Screenshots
 -------------------------
 
-![Publish form entry preview](http://s3.amazonaws.com/ember/mnMurYyE3farLFiffQvkGk8dGxvLvIkq_l.jpg)  
+![Publish form entry preview](http://s3.amazonaws.com/ember/A0o2CWaZmVqpHuBSU3M4W6U7fECzwLl0_s.jpg)  
 Publish form entry preview
 
-![Extension settings](http://s3.amazonaws.com/ember/A0o2CWaZmVqpHuBSU3M4W6U7fECzwLl0_s.jpg)  
+![Extension settings](http://s3.amazonaws.com/ember/gOpncCLg4PRzLt5OJCJc6DWSzFw7wfoJ_s.jpg)  
 Extension settings
 
 Requirements
@@ -230,3 +230,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 [lg_addon_updater]: http://leevigraham.com/cms-customisation/expressionengine/lg-addon-updater/
 [gh_morphine_theme]: http://github.com/newism/nsm.morphine.theme
+
+[ember_publish_form]: http://emberapp.com/leevigraham/images/lg-live-look-1-2-0-publish-form-expressioneng
+[ember_extension_settings]: http://emberapp.com/leevigraham/images/lg-live-look-1-2-0-extension-settings-express
