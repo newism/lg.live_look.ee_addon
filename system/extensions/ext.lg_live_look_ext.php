@@ -199,11 +199,15 @@ class Lg_live_look_ext {
 	{
 		if($this->debug === TRUE) print("<br />edit_entries_additional_celldata");
 
-		global $DB, $DSP, $EXT, $PREFS, $LANG, $SESS, $row_i;
+		global $DB, $DSP, $EXT, $FNS, $PREFS, $LANG, $SESS, $row_i;
 
 		if (empty($row_i)){ $row_i = 0; }
 
 		$extra = ($EXT->last_call !== FALSE) ? $EXT->last_call : '';
+
+		$pages = $PREFS->ini('site_pages');
+		if($PREFS->ini("app_version") > 168) 
+			$pages = $pages[$PREFS->ini("site_id")];
 
 		if(
 			$this->settings['enabled'] == TRUE
@@ -217,9 +221,9 @@ class Lg_live_look_ext {
 				empty($this->settings['weblogs'][$row['weblog_id']]['live_look_path']) === FALSE
 			)
 			{
-				if(isset($PREFS->core_ini['site_pages'][$row['entry_id']]) === TRUE)
+				if(isset($pages["uris"][$row['entry_id']]) === TRUE)
 				{
-					$ret = $PREFS->ini('site_url') . $PREFS->core_ini['site_pages'][$row['entry_id']];
+					$ret =  $FNS->create_url($pages["uris"][$row['entry_id']]);
 				}
 				else
 				{
@@ -380,9 +384,13 @@ class Lg_live_look_ext {
 		
 		if(empty($entry_id) === TRUE) return FALSE;
 
-		if(isset($PREFS->core_ini["site_pages"]["uris"][$entry_id]))
+		$pages = $PREFS->ini('site_pages');
+		if($PREFS->ini("app_version") > 168) 
+			$pages = $pages[$PREFS->ini("site_id")];
+
+		if(isset($pages["uris"][$entry_id]))
 		{
-			$ret = $FNS->create_url($PREFS->core_ini["site_pages"]["uris"][$entry_id]);
+			$ret = $FNS->create_url($pages["uris"][$entry_id]);
 		}
 		elseif($row === FALSE)
 		{
